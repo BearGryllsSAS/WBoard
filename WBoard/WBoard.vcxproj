@@ -1,0 +1,535 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>WBoard</ProjectName>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;xml;opengl;network;gui;svg;xmlpatterns;multimedia;uitools;widgets;qml;printsupport;webchannel;websockets;multimediawidgets;openglextensions;webengine;webenginewidgets;webview</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>5.15.2</QtInstall>
+    <QtModules>core;xml;opengl;network;gui;svg;xmlpatterns;multimedia;uitools;widgets;qml;printsupport;webchannel;websockets;multimediawidgets;openglextensions;webengine;webenginewidgets;webview</QtModules>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\$(Configuration)\</OutDir>
+    <IntDir>..\..\Intermediate\$ProjectName\</IntDir>
+    <IncludePath>.\ThirdParty\quazip\include;.\ThirdParty\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>.\ThirdParty\quazip\lib;.\ThirdParty\openssl\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\$(Configuration)\</OutDir>
+    <IntDir>..\..\Intermediate\$ProjectName\</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.\GeneratedFiles;.;.\GeneratedFiles\$(ConfigurationName);Include;Include\core;Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>quazipd.lib;libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.\GeneratedFiles;.;.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;wmvcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\adaptors\WBCFFAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBCFFSubsetAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportCFF.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportDocument.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportDocumentSetAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportFullPDF.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportPDF.cpp" />
+    <ClCompile Include="Source\adaptors\WBExportWeb.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportCFF.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportDocument.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportDocumentSetAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportImage.cpp" />
+    <ClCompile Include="Source\adaptors\WBImportPDF.cpp" />
+    <ClCompile Include="Source\adaptors\WBMetadataDcSubsetAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBSvgSubsetAdaptor.cpp" />
+    <ClCompile Include="Source\adaptors\WBThumbnailAdaptor.cpp" />
+    <ClCompile Include="Source\api\WBLibraryAPI.cpp" />
+    <ClCompile Include="Source\api\WBW3CWidgetAPI.cpp" />
+    <ClCompile Include="Source\api\WBWidgetMessageAPI.cpp" />
+    <ClCompile Include="Source\api\WBWidgetUniboardAPI.cpp" />
+    <ClCompile Include="Source\board\WBBoardController.cpp" />
+    <ClCompile Include="Source\board\WBBoardPaletteManager.cpp" />
+    <ClCompile Include="Source\board\WBBoardView.cpp" />
+    <ClCompile Include="Source\board\WBDrawingController.cpp" />
+    <ClCompile Include="Source\board\WBFeaturesController.cpp" />
+    <ClCompile Include="Source\core\main.cpp" />
+    <ClCompile Include="Source\core\WBApplication.cpp" />
+    <ClCompile Include="Source\core\WBApplicationController.cpp" />
+    <ClCompile Include="Source\core\WBDisplayManager.cpp" />
+    <ClCompile Include="Source\core\WBDocumentManager.cpp" />
+    <ClCompile Include="Source\core\WBDownloadManager.cpp" />
+    <ClCompile Include="Source\core\WBDownloadThread.cpp" />
+    <ClCompile Include="Source\core\WBForeignObjectsHandler.cpp" />
+    <ClCompile Include="Source\core\WBIdleTimer.cpp" />
+    <ClCompile Include="Source\core\WBMimeData.cpp" />
+    <ClCompile Include="Source\core\WBOpenSankoreImporter.cpp" />
+    <ClCompile Include="Source\core\WBPersistenceManager.cpp" />
+    <ClCompile Include="Source\core\WBPersistenceWorker.cpp" />
+    <ClCompile Include="Source\core\WBPreferencesController.cpp" />
+    <ClCompile Include="Source\core\WBSceneCache.cpp" />
+    <ClCompile Include="Source\core\WBSetting.cpp" />
+    <ClCompile Include="Source\core\WBSettings.cpp" />
+    <ClCompile Include="Source\core\WBTextTools.cpp" />
+    <ClCompile Include="Source\customWidgets\WBActionableWidget.cpp" />
+    <ClCompile Include="Source\customWidgets\WBGraphicsItemAction.cpp" />
+    <ClCompile Include="Source\customWidgets\WBMediaWidget.cpp" />
+    <ClCompile Include="Source\desktop\WBCustomCaptureWindow.cpp" />
+    <ClCompile Include="Source\desktop\WBDesktopAnnotationController.cpp" />
+    <ClCompile Include="Source\desktop\WBDesktopPalette.cpp" />
+    <ClCompile Include="Source\desktop\WBDesktopPropertyPalette.cpp" />
+    <ClCompile Include="Source\desktop\WBWindowCaptureDelegate_win.cpp" />
+    <ClCompile Include="Source\desktop\WBWindowCapture_win.cpp" />
+    <ClCompile Include="Source\document\WBDocumentContainer.cpp" />
+    <ClCompile Include="Source\document\WBDocumentController.cpp" />
+    <ClCompile Include="Source\document\WBDocumentProxy.cpp" />
+    <ClCompile Include="Source\document\WBSortFilterProxyModel.cpp" />
+    <ClCompile Include="Source\domain\WBDragableThumbnail.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsDelegateFrame.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsGroupContainerItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsGroupContainerItemDelegate.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsItemDelegate.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsItemGroupUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsItemTransformUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsItemUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsItemZLevelUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsMediaItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsMediaItemDelegate.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsPDFItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsPixmapItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsPolygonItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsProxyWidget.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsScene.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsStroke.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsStrokesGroup.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsSvgItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsTextItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsTextItemDelegate.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsTextItemUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsWidgetItem.cpp" />
+    <ClCompile Include="Source\domain\WBGraphicsWidgetItemDelegate.cpp" />
+    <ClCompile Include="Source\domain\WBItem.cpp" />
+    <ClCompile Include="Source\domain\WBPageSizeUndoCommand.cpp" />
+    <ClCompile Include="Source\domain\WBResizableGraphicsItem.cpp" />
+    <ClCompile Include="Source\domain\WBSelectionFrame.cpp" />
+    <ClCompile Include="Source\domain\WBUndoCommand.cpp" />
+    <ClCompile Include="Source\frameworks\WBBase32.cpp" />
+    <ClCompile Include="Source\frameworks\WBCoreGraphicsScene.cpp" />
+    <ClCompile Include="Source\frameworks\WBCryptoUtils.cpp" />
+    <ClCompile Include="Source\frameworks\WBFileSystemUtils.cpp" />
+    <ClCompile Include="Source\frameworks\WBGeometryUtils.cpp" />
+    <ClCompile Include="Source\frameworks\WBPlatformUtils.cpp" />
+    <ClCompile Include="Source\frameworks\WBPlatformUtils_win.cpp" />
+    <ClCompile Include="Source\frameworks\WBStringUtils.cpp" />
+    <ClCompile Include="Source\frameworks\WBVersion.cpp" />
+    <ClCompile Include="Source\gui\WBFavoriteToolPalette.cpp" />
+    <ClCompile Include="Source\gui\WBFeaturesActionBar.cpp" />
+    <ClCompile Include="Source\gui\WBFeaturesWidget.cpp" />
+    <ClCompile Include="Source\gui\WBFloatingPalette.cpp" />
+    <ClCompile Include="Source\gui\WBIconButton.cpp" />
+    <ClCompile Include="Source\gui\WBKeyboardPalette.cpp" />
+    <ClCompile Include="Source\gui\WBKeyboardPalette_win.cpp" />
+    <ClCompile Include="Source\gui\WBLeftPalette.cpp" />
+    <ClCompile Include="Source\gui\WBMagnifer.cpp" />
+    <ClCompile Include="Source\gui\WBMainWindow.cpp" />
+    <ClCompile Include="Source\gui\WBMessagesDialog.cpp" />
+    <ClCompile Include="Source\gui\WBMessageWindow.cpp" />
+    <ClCompile Include="Source\gui\WBMousePressFilter.cpp" />
+    <ClCompile Include="Source\gui\WBOpenSankoreImporterWidget.cpp" />
+    <ClCompile Include="Source\gui\WBPageNavigationWidget.cpp" />
+    <ClCompile Include="Source\gui\WBPropertyPalette.cpp" />
+    <ClCompile Include="Source\gui\WBResources.cpp" />
+    <ClCompile Include="Source\gui\WBRightPalette.cpp" />
+    <ClCompile Include="Source\gui\WBRubberBand.cpp" />
+    <ClCompile Include="Source\gui\WBScreenMirror.cpp" />
+    <ClCompile Include="Source\gui\WBSpinningWheel.cpp" />
+    <ClCompile Include="Source\gui\WBStartupHintsPalette.cpp" />
+    <ClCompile Include="Source\gui\WBStylusPalette.cpp" />
+    <ClCompile Include="Source\gui\WBThumbnailView.cpp" />
+    <ClCompile Include="Source\gui\WBThumbnailWidget.cpp" />
+    <ClCompile Include="Source\gui\WBToolbarButtonGroup.cpp" />
+    <ClCompile Include="Source\gui\WBToolWidget.cpp" />
+    <ClCompile Include="Source\gui\WBUpdateDlg.cpp" />
+    <ClCompile Include="Source\gui\WBWebToolsPalette.cpp" />
+    <ClCompile Include="Source\gui\WBWidgetMirror.cpp" />
+    <ClCompile Include="Source\gui\WBZoomPalette.cpp" />
+    <ClCompile Include="Source\gui\WBActionPalette.cpp" />
+    <ClCompile Include="Source\gui\WBBackgroundPalette.cpp" />
+    <ClCompile Include="Source\gui\WBBlackoutWidget.cpp" />
+    <ClCompile Include="Source\gui\WBBoardThumbnailsView.cpp" />
+    <ClCompile Include="Source\gui\WBCachePropertiesWidget.cpp" />
+    <ClCompile Include="Source\gui\WBCircleFrame.cpp" />
+    <ClCompile Include="Source\gui\WBColorPicker.cpp" />
+    <ClCompile Include="Source\gui\WBDockDownloadWidget.cpp" />
+    <ClCompile Include="Source\gui\WBDockPalette.cpp" />
+    <ClCompile Include="Source\gui\WBDockPaletteWidget.cpp" />
+    <ClCompile Include="Source\gui\WBDocumentNavigator.cpp" />
+    <ClCompile Include="Source\gui\WBDocumentThumbnailWidget.cpp" />
+    <ClCompile Include="Source\gui\WBDocumentToolsPalette.cpp" />
+    <ClCompile Include="Source\gui\WBDocumentTreeWidget.cpp" />
+    <ClCompile Include="Source\gui\WBDownloadWidget.cpp" />
+    <ClCompile Include="Source\network\WBAutoSaver.cpp" />
+    <ClCompile Include="Source\network\WBHttpGet.cpp" />
+    <ClCompile Include="Source\network\WBNetworkAccessManager.cpp" />
+    <ClCompile Include="Source\pdf\GraphicsPDFItem.cpp" />
+    <ClCompile Include="Source\pdf\PDFRenderer.cpp" />
+    <ClCompile Include="Source\pdf\XPDFRenderer.cpp" />
+    <ClCompile Include="Source\podcast\WBAbstractVideoEncoder.cpp" />
+    <ClCompile Include="Source\podcast\WBPodcastController.cpp" />
+    <ClCompile Include="Source\podcast\WBPodcastRecordingPalette.cpp" />
+    <ClCompile Include="Source\podcast\windowsmedia\WBWaveRecorder.cpp" />
+    <ClCompile Include="Source\podcast\windowsmedia\WBWindowsMediaFile.cpp" />
+    <ClCompile Include="Source\podcast\windowsmedia\WBWindowsMediaVideoEncoder.cpp" />
+    <ClCompile Include="Source\qtsingleapplication\qtlocalpeer.cpp" />
+    <ClCompile Include="Source\qtsingleapplication\qtsingleapplication.cpp" />
+    <ClCompile Include="Source\tools\WBAbstractDrawRuler.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsCache.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsCompass.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsCurtainItem.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsCurtainItemDelegate.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsProtractor.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsRuler.cpp" />
+    <ClCompile Include="Source\tools\WBGraphicsTriangle.cpp" />
+    <ClCompile Include="Source\tools\WBToolsManager.cpp" />
+    <ClCompile Include="Source\web\browser\WBBrowserWindow.cpp" />
+    <ClCompile Include="Source\web\browser\WBChaseWidget.cpp" />
+    <ClCompile Include="Source\web\browser\WBDownloadManager_.cpp" />
+    <ClCompile Include="Source\web\browser\WBEditTableView.cpp" />
+    <ClCompile Include="Source\web\browser\WBModelMenu.cpp" />
+    <ClCompile Include="Source\web\browser\WBSearchLineEdit.cpp" />
+    <ClCompile Include="Source\web\browser\WBSqueezeLabel.cpp" />
+    <ClCompile Include="Source\web\browser\WBTabWidget.cpp" />
+    <ClCompile Include="Source\web\browser\WBToolBarSearch.cpp" />
+    <ClCompile Include="Source\web\browser\WBUrlLineEdit.cpp" />
+    <ClCompile Include="Source\web\browser\WBWebTrapWebView.cpp" />
+    <ClCompile Include="Source\web\browser\WBWebView.cpp" />
+    <ClCompile Include="Source\web\WBOEmbedParser.cpp" />
+    <ClCompile Include="Source\web\WBWebController.cpp" />
+    <ClCompile Include="Source\web\WBWebKitUtils.cpp" />
+    <ClCompile Include="Source\web\WBWebPage_.cpp" />
+    <ClCompile Include="Source\web\WBWebPluginWidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Source\web\browser\downloaditem.ui" />
+    <QtUic Include="Source\web\browser\downloads.ui" />
+    <QtUic Include="Source\web\browser\proxy.ui" />
+    <QtUic Include="UI\blackoutWidget.ui" />
+    <QtUic Include="UI\brushProperties.ui" />
+    <QtUic Include="UI\documents.ui" />
+    <QtUic Include="UI\mainWindow.ui" />
+    <QtUic Include="UI\preferences.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\core\WB.h" />
+    <ClInclude Include="Source\core\WBForeignObjectsHandler.h" />
+    <ClInclude Include="Source\core\WBSceneCache.h" />
+    <ClInclude Include="Source\core\WBTextTools.h" />
+    <ClInclude Include="Source\document\WBSortFilterProxyModel.h" />
+    <ClInclude Include="Source\domain\WBDragableThumbnail.h" />
+    <ClInclude Include="Source\domain\WBGraphicsDelegateFrame.h" />
+    <ClInclude Include="Source\domain\WBGraphicsGroupContainerItem.h" />
+    <ClInclude Include="Source\domain\WBGraphicsItemGroupUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBGraphicsItemTransformUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBGraphicsItemUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBGraphicsItemZLevelUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBGraphicsPolygonItem.h" />
+    <ClInclude Include="Source\domain\WBGraphicsProxyWidget.h" />
+    <ClInclude Include="Source\domain\WBGraphicsStroke.h" />
+    <ClInclude Include="Source\domain\WBGraphicsSvgItem.h" />
+    <ClInclude Include="Source\domain\WBGraphicsTextItemUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBItem.h" />
+    <ClInclude Include="Source\domain\WBPageSizeUndoCommand.h" />
+    <ClInclude Include="Source\domain\WBResizableGraphicsItem.h" />
+    <ClInclude Include="Source\domain\WBUndoCommand.h" />
+    <ClInclude Include="Source\frameworks\WBBase32.h" />
+    <ClInclude Include="Source\frameworks\WBCoreGraphicsScene.h" />
+    <ClInclude Include="Source\frameworks\WBGeometryUtils.h" />
+    <ClInclude Include="Source\frameworks\WBPlatformUtils.h" />
+    <ClInclude Include="Source\frameworks\WBStringUtils.h" />
+    <ClInclude Include="Source\frameworks\WBVersion.h" />
+    <ClInclude Include="Source\globals\WBGlobals.h" />
+    <ClInclude Include="Source\gui\WBCircleFrame.h" />
+    <ClInclude Include="Source\gui\WBLeftPalette.h" />
+    <ClInclude Include="Source\web\WBWebKitUtils.h" />
+    <QtMoc Include="Source\web\WBWebPluginWidget.h" />
+    <QtMoc Include="Source\web\WBWebPage_.h" />
+    <QtMoc Include="Source\web\WBWebController.h" />
+    <QtMoc Include="Source\web\WBOEmbedParser.h" />
+    <QtMoc Include="Source\podcast\windowsmedia\WBWaveRecorder.h" />
+    <QtMoc Include="Source\podcast\windowsmedia\WBWindowsMediaFile.h" />
+    <QtMoc Include="Source\podcast\windowsmedia\WBWindowsMediaVideoEncoder.h" />
+    <QtMoc Include="Source\podcast\WBAbstractVideoEncoder.h" />
+    <QtMoc Include="Source\podcast\WBPodcastController.h" />
+    <QtMoc Include="Source\podcast\WBPodcastRecordingPalette.h" />
+    <ClInclude Include="Source\tools\WBGraphicsCache.h" />
+    <QtMoc Include="Source\tools\WBToolsManager.h" />
+    <QtMoc Include="Source\tools\WBGraphicsTriangle.h" />
+    <QtMoc Include="Source\tools\WBGraphicsRuler.h" />
+    <QtMoc Include="Source\tools\WBGraphicsProtractor.h" />
+    <QtMoc Include="Source\tools\WBGraphicsCurtainItemDelegate.h" />
+    <QtMoc Include="Source\tools\WBGraphicsCurtainItem.h" />
+    <QtMoc Include="Source\tools\WBGraphicsCompass.h" />
+    <QtMoc Include="Source\tools\WBAbstractDrawRuler.h" />
+    <QtMoc Include="Source\network\WBNetworkAccessManager.h" />
+    <QtMoc Include="Source\network\WBHttpGet.h" />
+    <QtMoc Include="Source\network\WBAutoSaver.h" />
+    <QtMoc Include="Source\gui\WBZoomPalette.h" />
+    <QtMoc Include="Source\gui\WBWidgetMirror.h" />
+    <QtMoc Include="Source\gui\WBWebToolsPalette.h" />
+    <QtMoc Include="Source\gui\WBUpdateDlg.h" />
+    <QtMoc Include="Source\gui\WBToolWidget.h" />
+    <QtMoc Include="Source\gui\WBToolbarButtonGroup.h" />
+    <QtMoc Include="Source\gui\WBThumbnailWidget.h" />
+    <QtMoc Include="Source\gui\WBThumbnailView.h" />
+    <QtMoc Include="Source\gui\WBStylusPalette.h" />
+    <QtMoc Include="Source\gui\WBStartupHintsPalette.h" />
+    <QtMoc Include="Source\gui\WBSpinningWheel.h" />
+    <QtMoc Include="Source\gui\WBScreenMirror.h" />
+    <QtMoc Include="Source\gui\WBRubberBand.h" />
+    <QtMoc Include="Source\gui\WBRightPalette.h" />
+    <QtMoc Include="Source\gui\WBResources.h" />
+    <QtMoc Include="Source\gui\WBPropertyPalette.h" />
+    <QtMoc Include="Source\gui\WBPageNavigationWidget.h" />
+    <QtMoc Include="Source\gui\WBOpenSankoreImporterWidget.h" />
+    <QtMoc Include="Source\gui\WBMousePressFilter.h" />
+    <QtMoc Include="Source\gui\WBMessageWindow.h" />
+    <QtMoc Include="Source\gui\WBMessagesDialog.h" />
+    <QtMoc Include="Source\gui\WBMainWindow.h" />
+    <QtMoc Include="Source\gui\WBMagnifer.h" />
+    <QtMoc Include="Source\gui\WBKeyboardPalette.h" />
+    <QtMoc Include="Source\gui\WBIconButton.h" />
+    <QtMoc Include="Source\gui\WBFloatingPalette.h" />
+    <QtMoc Include="Source\gui\WBFeaturesWidget.h" />
+    <QtMoc Include="Source\gui\WBFeaturesActionBar.h" />
+    <QtMoc Include="Source\gui\WBFavoriteToolPalette.h" />
+    <QtMoc Include="Source\gui\WBDownloadWidget.h" />
+    <QtMoc Include="Source\gui\WBDocumentTreeWidget.h" />
+    <QtMoc Include="Source\gui\WBDocumentToolsPalette.h" />
+    <QtMoc Include="Source\gui\WBDocumentThumbnailWidget.h" />
+    <QtMoc Include="Source\gui\WBDocumentNavigator.h" />
+    <QtMoc Include="Source\gui\WBDockPaletteWidget.h" />
+    <QtMoc Include="Source\gui\WBDockPalette.h" />
+    <QtMoc Include="Source\gui\WBDockDownloadWidget.h" />
+    <QtMoc Include="Source\gui\WBColorPicker.h" />
+    <QtMoc Include="Source\gui\WBClockPalette.h" />
+    <QtMoc Include="Source\gui\WBCachePropertiesWidget.h" />
+    <QtMoc Include="Source\gui\WBBoardThumbnailsView.h" />
+    <QtMoc Include="Source\gui\WBBlackoutWidget.h" />
+    <QtMoc Include="Source\gui\WBBackgroundPalette.h" />
+    <QtMoc Include="Source\gui\WBActionPalette.h" />
+    <QtMoc Include="Source\frameworks\WBFileSystemUtils.h" />
+    <QtMoc Include="Source\frameworks\WBCryptoUtils.h" />
+    <QtMoc Include="Source\domain\WBSelectionFrame.h" />
+    <QtMoc Include="Source\domain\WBGraphicsWidgetItemDelegate.h" />
+    <QtMoc Include="Source\domain\WBGraphicsWidgetItem.h" />
+    <QtMoc Include="Source\domain\WBGraphicsTextItemDelegate.h" />
+    <QtMoc Include="Source\domain\WBGraphicsTextItem.h" />
+    <QtMoc Include="Source\domain\WBGraphicsStrokesGroup.h" />
+    <QtMoc Include="Source\domain\WBGraphicsScene.h" />
+    <QtMoc Include="Source\domain\WBGraphicsPixmapItem.h" />
+    <QtMoc Include="Source\domain\WBGraphicsPDFItem.h" />
+    <QtMoc Include="Source\domain\WBGraphicsMediaItemDelegate.h" />
+    <QtMoc Include="Source\domain\WBGraphicsMediaItem.h" />
+    <QtMoc Include="Source\domain\WBGraphicsItemDelegate.h" />
+    <QtMoc Include="Source\domain\WBGraphicsGroupContainerItemDelegate.h" />
+    <QtMoc Include="Source\document\WBDocumentProxy.h" />
+    <QtMoc Include="Source\document\WBDocumentController.h" />
+    <QtMoc Include="Source\document\WBDocumentContainer.h" />
+    <QtMoc Include="Source\desktop\WBWindowCaptureDelegate_win.h" />
+    <QtMoc Include="Source\desktop\WBWindowCapture.h" />
+    <QtMoc Include="Source\desktop\WBDesktopPropertyPalette.h" />
+    <QtMoc Include="Source\desktop\WBDesktopPalette.h" />
+    <QtMoc Include="Source\desktop\WBDesktopAnnotationController.h" />
+    <QtMoc Include="Source\desktop\WBCustomCaptureWindow.h" />
+    <QtMoc Include="Source\customWidgets\WBMediaWidget.h" />
+    <QtMoc Include="Source\customWidgets\WBGraphicsItemAction.h" />
+    <QtMoc Include="Source\customWidgets\WBActionableWidget.h" />
+    <QtMoc Include="Source\core\WBSettings.h" />
+    <QtMoc Include="Source\core\WBSetting.h" />
+    <QtMoc Include="Source\core\WBPreferencesController.h" />
+    <QtMoc Include="Source\core\WBPersistenceWorker.h" />
+    <QtMoc Include="Source\core\WBPersistenceManager.h" />
+    <QtMoc Include="Source\core\WBOpenSankoreImporter.h" />
+    <QtMoc Include="Source\core\WBMimeData.h" />
+    <QtMoc Include="Source\core\WBIdleTimer.h" />
+    <QtMoc Include="Source\core\WBDownloadThread.h" />
+    <QtMoc Include="Source\core\WBDownloadManager.h" />
+    <QtMoc Include="Source\core\WBDocumentManager.h" />
+    <QtMoc Include="Source\core\WBDisplayManager.h" />
+    <QtMoc Include="Source\core\WBApplicationController.h" />
+    <QtMoc Include="Source\core\WBApplication.h" />
+    <QtMoc Include="Source\web\browser\WBBrowserWindow.h" />
+    <QtMoc Include="Source\web\browser\WBChaseWidget.h" />
+    <QtMoc Include="Source\web\browser\WBDownloadManager_.h" />
+    <QtMoc Include="Source\web\browser\WBEditTableView.h" />
+    <QtMoc Include="Source\web\browser\WBModelMenu.h" />
+    <QtMoc Include="Source\web\browser\WBSearchLineEdit.h" />
+    <QtMoc Include="Source\web\browser\WBSqueezeLabel.h" />
+    <QtMoc Include="Source\web\browser\WBTabWidget.h" />
+    <QtMoc Include="Source\web\browser\WBToolBarSearch.h" />
+    <QtMoc Include="Source\web\browser\WBUrlLineEdit.h" />
+    <QtMoc Include="Source\web\browser\WBWebTrapWebView.h" />
+    <QtMoc Include="Source\web\browser\WBWebView.h" />
+    <QtMoc Include="Source\pdf\XPDFRenderer.h" />
+    <QtMoc Include="Source\pdf\PDFRenderer.h" />
+    <QtMoc Include="Source\pdf\GraphicsPDFItem.h" />
+    <QtMoc Include="Source\qtsingleapplication\qtlocalpeer.h" />
+    <QtMoc Include="Source\qtsingleapplication\qtsingleapplication.h" />
+    <ClInclude Include="Source\adaptors\WBCFFAdaptor.h" />
+    <ClInclude Include="Source\adaptors\WBCFFAdaptor_global.h" />
+    <ClInclude Include="Source\adaptors\WBCFFConstants.h" />
+    <ClInclude Include="Source\adaptors\WBCFFSubsetAdaptor.h" />
+    <QtMoc Include="Source\adaptors\WBExportAdaptor.h" />
+    <QtMoc Include="Source\adaptors\WBExportCFF.h" />
+    <QtMoc Include="Source\adaptors\WBExportDocument.h" />
+    <QtMoc Include="Source\adaptors\WBExportDocumentSetAdaptor.h" />
+    <QtMoc Include="Source\adaptors\WBExportFullPDF.h" />
+    <QtMoc Include="Source\adaptors\WBExportPDF.h" />
+    <QtMoc Include="Source\adaptors\WBExportWeb.h" />
+    <ClInclude Include="Source\adaptors\WBGlobals.h" />
+    <QtMoc Include="Source\adaptors\WBImportAdaptor.h" />
+    <QtMoc Include="Source\adaptors\WBImportCFF.h" />
+    <QtMoc Include="Source\adaptors\WBImportDocument.h" />
+    <QtMoc Include="Source\adaptors\WBImportDocumentSetAdaptor.h" />
+    <QtMoc Include="Source\adaptors\WBImportImage.h" />
+    <QtMoc Include="Source\adaptors\WBImportPDF.h" />
+    <ClInclude Include="Source\adaptors\WBMetadataDcSubsetAdaptor.h" />
+    <ClInclude Include="Source\adaptors\WBSvgSubsetAdaptor.h" />
+    <ClInclude Include="Source\adaptors\WBThumbnailAdaptor.h" />
+    <QtMoc Include="Source\api\WBLibraryAPI.h" />
+    <QtMoc Include="Source\api\WBW3CWidgetAPI.h" />
+    <QtMoc Include="Source\api\WBWidgetMessageAPI.h" />
+    <QtMoc Include="Source\api\WBWidgetUniboardAPI.h" />
+    <QtMoc Include="Source\board\WBBoardController.h" />
+    <QtMoc Include="Source\board\WBBoardPaletteManager.h" />
+    <QtMoc Include="Source\board\WBBoardView.h" />
+    <QtMoc Include="Source\board\WBDrawingController.h" />
+    <QtMoc Include="Source\board\WBFeaturesController.h" />
+    <ClInclude Include="Source\core\memcheck.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="lang_zh_CN.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WBoard.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Resources\WBoard.qrc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
