@@ -36,7 +36,7 @@ void WBMetadataDcSubsetAdaptor::persist(WBDocumentProxy* proxy)
         return;
     }
     QString fileName = proxy->persistencePath() + "/" + metadataFilename;
-    qWarning() << "Persisting document; path is" << fileName;
+    qWarning() << "in WBMetadataDcSubsetAdaptor::persist(WBDocumentProxy* proxy) : " << "Persisting document; path is" << fileName << "\n";
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {

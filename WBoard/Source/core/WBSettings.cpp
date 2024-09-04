@@ -138,7 +138,7 @@ QSettings* WBSettings::getAppSettings()
         WBSettings::sAppSettings = new QSettings(appSettings, QSettings::IniFormat, 0);
         WBSettings::sAppSettings->setIniCodec("utf-8");
 
-        qDebug() << "sAppSettings location: " << appSettings;
+        qDebug() << "in WBSettings::getAppSettings() : " << "sAppSettings location: " << appSettings << "\n";
     }
 
     return WBSettings::sAppSettings;
@@ -979,7 +979,7 @@ QString WBSettings::userDocumentDirectory()
         documentDirectory = userDataDirectory() + "/document";
         checkDirectory(documentDirectory);
     }
-    qDebug() << "userDocumentDirectory()" << documentDirectory;
+    qDebug() << "in WBSettings::userDocumentDirectory() : " << "userDocumentDirectory()" << documentDirectory << "\n";
     return documentDirectory;
 }
 

@@ -55,6 +55,7 @@ void ub_message_output(QtMsgType type, const QMessageLogContext& context, const 
 
 int main(int argc, char *argv[])
 {
+    qDebug() << "in main(int argc, char *argv[]) : start\n";
 
     // Uncomment next section to have memory leaks information
     // tracing in VC++ debug mode under Windows
@@ -100,12 +101,12 @@ int main(int argc, char *argv[])
         }
     }
 
-    qDebug() << "file name argument" << fileToOpen;
+    qDebug() << "in main(int argc, char *argv[]) : " << "file name argument\n" << fileToOpen;
     int result = app.exec(fileToOpen);                      // 初始化控制器等等
 
     app.cleanup();
 
-    qDebug() << "application is quitting";
+    qDebug() << "application is quitting\n";
 
 
     return result;

@@ -65,6 +65,7 @@ WBApplication::WBApplication(const QString &id, int &argc, char **argv) : QtSing
   , mApplicationTranslator(NULL)
   , mQtGuiTranslator(NULL)
 {
+    qDebug() << "in WBApplication::WBApplication(const QString &id, int &argc, char **argv) : constructor\n";
 
     staticMemoryCleaner = new QObject(0); // deleted in WBApplication destructor
 
@@ -224,7 +225,7 @@ void WBApplication::setupTranslators(QStringList args)
     }
 
     QLocale::setDefault(QLocale(language));
-    qDebug() << "Running application in:" << language;
+    qDebug() << "in WBApplication::setupTranslators(QStringList args) : " << "Running application in:" << language << "\n";
 }
 
 int WBApplication::exec(const QString& pFileToImport)
@@ -259,7 +260,7 @@ int WBApplication::exec(const QString& pFileToImport)
     WBThumbnailUI::_private::initCatalog();
 
     connect(mainWindow->actionBoard, SIGNAL(triggered()), this, SLOT(showBoard()));
-    connect(mainWindow->actionWeb, SIGNAL(triggered()), this, SLOT(showInternet()));
+    connect(mainWindow->actionWeb, SIGNAL(triggered()), this, SLOT(showInternet()));            // 点击 Web 按钮时，会触发这个信号槽
     connect(mainWindow->actionWeb, SIGNAL(triggered()), this, SLOT(stopScript()));
     connect(mainWindow->actionDocument, SIGNAL(triggered()), this, SLOT(showDocument()));
     connect(mainWindow->actionDocument, SIGNAL(triggered()), this, SLOT(stopScript()));
@@ -282,13 +283,13 @@ int WBApplication::exec(const QString& pFileToImport)
 
 
     connect(applicationController, SIGNAL(mainModeChanged(WBApplicationController::MainMode)),
-            boardController->paletteManager(), SLOT(slot_changeMainMode(WBApplicationController::MainMode)));
+            boardController->paletteManager(), SLOT(slot_changeMainMode(WBApplicationController::MainMode)));           // 网络相关信号的连接
 
     connect(applicationController, SIGNAL(desktopMode(bool)),
             boardController->paletteManager(), SLOT(slot_changeDesktopMode(bool)));
 
     connect(applicationController, SIGNAL(mainModeChanged(WBApplicationController::MainMode))
-          , boardController,       SLOT(appMainModeChanged(WBApplicationController::MainMode)));
+          , boardController,       SLOT(appMainModeChanged(WBApplicationController::MainMode)));                        // 网络相关信号的连接
 
     connect(mainWindow->actionDesktop, SIGNAL(triggered(bool)), applicationController, SLOT(showDesktop(bool)));
     connect(mainWindow->actionDesktop, SIGNAL(triggered(bool)), this, SLOT(stopScript()));

@@ -39,3 +39,108 @@
 # 3 项目流程
 ## 3.1 程序运行流程
 ## 3.2 程序主控制器及数据模型
+
+# 4 程序执行流程
+
+### 1. main 函数
+1. 创建`WBApplication`实例`app`，通过`WBApplication`实例对象初始化主程序的相关环境
+2. `app`通过调用`exec()`进行事件主循环
+3. 在`exec()`中
+   1. 创建和初始化主窗口`WBMainWindow`进行子窗口布局
+   2. 创建和初始化各个控制器
+   3. 创建和初始化其他资源
+   4. 连接各种信号和槽函数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 5 各个功能的代码实现
+
+1. 点开网页`Web`功能的时候，网页控制器`WBWebController`会发挥作用，`WBWebController`类中的`webBrowserInstance()`会创建浏览器实例。具体的调用堆栈为：
+![image-20240904183100772](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041831962.png)
+
+![image-20240904183125053](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041831187.png)
+
+![image-20240904183153129](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041831258.png)
+
+![image-20240904183205584](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041832724.png)
+
+![image-20240904183220224](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041832363.png)
+
+![image-20240904183229223](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041832355.png)
+
+![image-20240904183246498](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041832630.png)
+
+![image-20240904185225096](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041852214.png)
+
+`WBApplication`中对应的信号和槽函数
+
+![image-20240904184106840](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041841974.png)
+
+`WBApplicationController::showInternet()`中`emit mainModeChanged(Internet)`
+
+![image-20240904185834638](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041858764.png)
+
+`WBApplicationController`类中信号`void mainModeChanged(WBApplicationController::MainMode pMode)`的定义
+
+![image-20240904190054727](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041900863.png)
+
+`mainModeChanged`信号和槽的连接时间
+
+![image-20240904190435432](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041904559.png)
+
+实际上，`WBBoardPaletteManager::slot_changeMainMode(WBApplicationController::MainMode mainMode)`和`WBBoardController::appMainModeChanged(WBApplicationController::MainMode md)`都会先后被调用
+
+![image-20240904191832710](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041918854.png)
+
+![image-20240904191555625](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041915757.png)
+

@@ -128,6 +128,8 @@ WBGraphicsItemMoveToPageAction::WBGraphicsItemMoveToPageAction(eWBGraphicsItemMo
 
 void WBGraphicsItemMoveToPageAction::play()
 {
+    std::cout << "WBGraphicsItemMoveToPageAction::play()" << endl;
+
     WBBoardController* boardController = WBApplication::boardController;
 
     switch (mActionType) {

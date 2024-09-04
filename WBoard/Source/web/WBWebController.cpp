@@ -65,6 +65,8 @@ void WBWebController::initialiazemOEmbedProviders()
 
 void WBWebController::webBrowserInstance()
 {
+    qDebug() << "in WBWebController::webBrowserInstance() : " << "Create a browser instance\n";
+
     QString webHomePage = WBSettings::settings()->webHomePage->get().toString();
     QUrl currentUrl = WBBrowserWindow::guessUrlFromString(webHomePage);
 
