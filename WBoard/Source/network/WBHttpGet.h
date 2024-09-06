@@ -59,3 +59,45 @@ private:
 
 #endif /* WBHTTPGET_H_ */
 
+/*
+
+这段代码定义了一个用于处理 HTTP GET 请求的 `WBHttpGet` 类。以下是每个函数和成员的详细分析：
+
+1. **构造函数 `WBHttpGet(QObject* parent = 0)`**:
+   - 初始化 `WBHttpGet` 对象，接受一个可选的父对象参数 `parent`。
+
+2. **析构函数 `virtual ~WBHttpGet()`**:
+   - 用于清理 `WBHttpGet` 对象，释放相关资源。
+
+3. **`QNetworkReply* get(QUrl pUrl, QPointF pPoint = QPointF(0, 0), QSize pSize = QSize(0, 0), bool isBackground = false)`**:
+   - 发起一个 HTTP GET 请求。参数包括请求的 URL (`pUrl`)、位置 (`pPoint`)、大小 (`pSize`)、是否后台请求 (`isBackground`)。
+   - 返回一个 `QNetworkReply` 对象，代表网络响应。
+
+4. **信号 `void downloadProgress(qint64 bytesReceived, qint64 bytesTotal)`**:
+   - 在下载过程中发出，报告已接收的字节数 (`bytesReceived`) 和总字节数 (`bytesTotal`)。
+
+5. **信号 `void downloadFinished(bool pSuccess, QUrl sourceUrl, QString pContentTypeHeader, QByteArray pData, QPointF pPos, QSize pSize, bool isBackground)`**:
+   - 在下载完成时发出，包含下载是否成功 (`pSuccess`)、源 URL (`sourceUrl`)、内容类型头 (`pContentTypeHeader`)、下载的数据 (`pData`)、位置 (`pPos`)、大小 (`pSize`)、是否后台请求 (`isBackground`)。
+
+6. **槽函数 `void readyRead()`**:
+   - 处理网络响应数据准备读取的情况。
+
+7. **槽函数 `void requestFinished()`**:
+   - 处理网络请求完成的情况。
+
+8. **槽函数 `void downloadProgressed(qint64 bytesReceived, qint64 bytesTotal)`**:
+   - 处理下载进度变化的情况。
+
+9. **成员变量**:
+   - `QByteArray mDownloadedBytes`：存储已下载的字节数据。
+   - `QNetworkReply* mReply`：当前网络请求的响应对象。
+   - `QPointF mPos`：请求的位置。
+   - `QSize mSize`：请求的大小。
+   - `bool mIsBackground`：标志是否为后台请求。
+   - `int mRequestID`：请求的 ID。
+   - `int mRedirectionCount`：重定向计数。
+   - `bool mIsSelfAborting`：标志是否为自我中止的请求。
+
+这个类封装了发起和处理 HTTP GET 请求的功能，使用 Qt 的信号和槽机制来报告下载进度和完成状态。
+
+*/

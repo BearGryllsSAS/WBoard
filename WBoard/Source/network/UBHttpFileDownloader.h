@@ -72,3 +72,99 @@ class UBHttpFileDownloader : public QObject
 };
 
 #endif /* UBHTTPFILEDOWNLOADER_H_ */
+
+/*
+
+这段代码定义了 `UBHttpFileDownloader` 类，用于处理从网络上下载文件的功能。以下是对每个部分和函数的详细分析：
+
+### 头文件部分
+
+```cpp
+#ifndef UBHTTPFILEDOWNLOADER_H_
+#define UBHTTPFILEDOWNLOADER_H_
+
+#include <QtCore>
+#include <QtNetwork>
+```
+- **`#ifndef UBHTTPFILEDOWNLOADER_H_`** 和 **`#define UBHTTPFILEDOWNLOADER_H_`**：防止头文件被多次包含。
+- **`#include <QtCore>`** 和 **`#include <QtNetwork>`**：包含 Qt 的核心和网络模块的头文件。
+
+### 类声明部分
+
+```cpp
+class UBHttpFileDownloader : public QObject
+{
+        Q_OBJECT;
+```
+- **`UBHttpFileDownloader`**：继承自 `QObject`，用于实现文件下载功能。
+- **`Q_OBJECT`**：使类支持 Qt 的信号和槽机制。
+
+### 构造函数和析构函数
+
+```cpp
+    public:
+        UBHttpFileDownloader(QObject *parent = 0);
+        virtual ~UBHttpFileDownloader();
+```
+- **`UBHttpFileDownloader(QObject *parent = 0)`**：构造函数，初始化 `UBHttpFileDownloader` 实例。`parent` 参数指定父对象。
+- **`virtual ~UBHttpFileDownloader()`**：析构函数，用于清理资源。
+
+### 公共方法
+
+```cpp
+        void download(const QList<QUrl>& urls, const QList<QFile*>& files);
+```
+- **`download(const QList<QUrl>& urls, const QList<QFile*>& files)`**：启动下载过程，接受 URL 列表和对应的文件列表进行下载。
+
+### 信号
+
+```cpp
+    signals:
+        void finished(bool success);
+```
+- **`finished(bool success)`**：下载完成时发射的信号，表示下载是否成功。
+
+### 私有方法
+
+```cpp
+    private:
+        void downloadNext();
+```
+- **`downloadNext()`**：处理下一个文件下载任务，确保文件按顺序下载。
+
+### 私有成员变量
+
+```cpp
+        QList<QUrl> mUrlsToDownload;
+        QList<QFile*> mFilesToSave;
+
+        QNetworkReply* mReply;
+        QFile* mCurrentFile;
+        bool mSuccess;
+```
+- **`mUrlsToDownload`**：待下载的 URL 列表。
+- **`mFilesToSave`**：用于保存下载内容的文件列表。
+- **`mReply`**：当前的 `QNetworkReply` 对象，用于处理网络响应。
+- **`mCurrentFile`**：当前正在下载的文件。
+- **`mSuccess`**：标记下载是否成功。
+
+### 私有槽
+
+```cpp
+    private slots:
+        void downloadProgress (qint64 bytesReceived, qint64 bytesTotal);
+        void error ( QNetworkReply::NetworkError code );
+        void finished ();
+        void readyRead();
+```
+- **`downloadProgress(qint64 bytesReceived, qint64 bytesTotal)`**：下载进度更新的槽函数，接收已接收字节数和总字节数。
+- **`error(QNetworkReply::NetworkError code)`**：处理下载过程中出现的错误的槽函数。
+- **`finished()`**：下载完成的槽函数，处理下载完成后的操作。
+- **`readyRead()`**：处理接收到的数据准备读取的槽函数。
+
+### 总结
+
+`UBHttpFileDownloader` 类用于从网络上下载多个文件。它维护一个待下载 URL 和文件的列表，逐一下载每个文件。
+它使用 Qt 的网络功能来处理 HTTP 请求，能够处理下载进度、错误和数据读取事件，并在下载完成后发出信号通知结果。
+
+*/
