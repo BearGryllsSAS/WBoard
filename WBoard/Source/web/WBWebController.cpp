@@ -127,7 +127,7 @@ void WBWebController::show()
 
 void WBWebController::setSourceWidget(QWidget* pWidget)
 {
-    mBrowserWidget = pWidget;
+        mBrowserWidget = pWidget;
     WBApplication::applicationController->setMirrorSourceWidget(pWidget);
 }
 

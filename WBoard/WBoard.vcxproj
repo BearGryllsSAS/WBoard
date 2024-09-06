@@ -513,8 +513,7 @@
     <ClInclude Include="Source\core\memcheck.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Web.cd" />
     <None Include="lang_zh_CN.ts" />
   </ItemGroup>
   <ItemGroup>

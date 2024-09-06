@@ -144,3 +144,7 @@
 
 ![image-20240904191555625](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409041915757.png)
 
+2. `WBHttpGet`主要用于处理 HTTP 的 GET 请求，并提供了相关的功能和信号来处理请求过程中的各种事件和状态。调试的时候发现代码没有进入其任何成员函数中，于是全局搜索找到了所有与之相关联的文件
+![image-20240905172729319](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409051727431.png)
+
+![image-20240905172734517](https://moyi-image.oss-cn-guangzhou.aliyuncs.com/img02/202409051727594.png)

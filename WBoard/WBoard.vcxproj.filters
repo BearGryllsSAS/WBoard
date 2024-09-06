@@ -1291,8 +1291,7 @@
     <None Include="lang_zh_CN.ts">
       <Filter>Translation Files</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Web.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WBoard.rc" />

@@ -261,7 +261,7 @@ void WBWebView::openLinkInNewTab()
 
 void WBWebView::setProgress(int progress)
 {
-    //qDebug() << "loading progress" << progress << "% in" << mLoadStartTime.elapsed() << "ms";
+    qDebug() << "in WBWebView::setProgress(int progress) : " << "loading progress" << progress << "% in" << mLoadStartTime.elapsed() << "ms";
 
     mProgress = progress;
 }

@@ -98,7 +98,7 @@ private:
 
     bool mDownloadViewIsVisible;
 
-    QStringList mOEmbedProviders;
+    QStringList mOEmbedProviders;           // 存放网页的初始链接
 
     WBOEmbedParser mOEmbedParser;
 

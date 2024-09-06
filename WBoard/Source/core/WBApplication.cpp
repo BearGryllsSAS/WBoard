@@ -404,6 +404,61 @@ void WBApplication::toolBarPositionChanged(QVariant topOrBottom)
 
 }
 
+/*
+
+这段代码定义了一个名为 `toolBarPositionChanged` 的成员函数，该函数属于 `WBApplication` 类。其主要功能是处理工具栏位置的改变。下面是对每一部分的详细分析：
+
+```cpp
+void WBApplication::toolBarPositionChanged(QVariant topOrBottom)
+{
+    Qt::ToolBarArea area;
+```
+- **函数定义**：这是一个名为 `toolBarPositionChanged` 的函数，接收一个 `QVariant` 类型的参数 `topOrBottom`。
+- **`Qt::ToolBarArea area;`**：定义了一个 `Qt::ToolBarArea` 类型的变量 `area`，用于存储工具栏的位置。
+
+```cpp
+    if (topOrBottom.toBool())
+        area = Qt::TopToolBarArea;
+    else
+        area = Qt::BottomToolBarArea;
+```
+- **条件判断**：
+  - `topOrBottom.toBool()`：将 `topOrBottom` 转换为布尔值。如果 `topOrBottom` 的值是 `true`（即布尔值为 `true`），则 `area` 被设置为 `Qt::TopToolBarArea`，表示工具栏应放在窗口的顶部。
+  - 如果 `topOrBottom` 的值是 `false`（即布尔值为 `false`），则 `area` 被设置为 `Qt::BottomToolBarArea`，表示工具栏应放在窗口的底部。
+
+```cpp
+    mainWindow->addToolBar(area, mainWindow->boardToolBar);
+    mainWindow->addToolBar(area, mainWindow->webToolBar);
+    mainWindow->addToolBar(area, mainWindow->documentToolBar);
+```
+- **调整工具栏位置**：
+  - `mainWindow` 是 `WBApplication` 类中的一个成员，指向主窗口对象。
+  - `addToolBar` 方法用于将工具栏添加到指定的区域 `area`。在这个例子中，`mainWindow` 的 `boardToolBar`、`webToolBar` 和 `documentToolBar` 被添加到刚刚设置的位置（顶部或底部）。
+
+```cpp
+    webController->showTabAtTop(topOrBottom.toBool());
+}
+```
+- **调整标签位置**：
+  - `webController` 是 `WBApplication` 类中的一个成员，可能是用于控制与 Web 相关的功能的对象。
+  - `showTabAtTop` 是 `webController` 对象的方法，用于根据 `topOrBottom` 的布尔值来决定标签的位置。如果 `topOrBottom` 为 `true`，则标签显示在顶部；如果为 `false`，则标签显示在其他位置（通常是底部）。
+
+### 总结
+
+`toolBarPositionChanged` 函数的作用是根据 `topOrBottom` 参数来调整工具栏的位置，并更新 `webController` 对象中标签的位置。具体的功能如下：
+
+1. **根据布尔值设置工具栏的位置**：
+   - `topOrBottom` 为 `true` 时，工具栏位置设置为顶部（`Qt::TopToolBarArea`）。
+   - `topOrBottom` 为 `false` 时，工具栏位置设置为底部（`Qt::BottomToolBarArea`）。
+
+2. **将 `boardToolBar`、`webToolBar` 和 `documentToolBar` 添加到 `mainWindow` 的指定位置**。
+
+3. **调用 `webController->showTabAtTop` 方法来调整标签的位置**，使其与工具栏的位置保持一致。
+
+这段代码通过设置工具栏的位置和更新标签位置来实现用户界面的一致性和布局调整，确保用户界面元素在用户交互时能够正确显示。
+
+*/
+
 
 void WBApplication::toolBarDisplayTextChanged(QVariant display)
 {

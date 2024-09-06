@@ -310,6 +310,51 @@ WBWebView *WBTabWidget::webView(int index) const
     return 0;
 }
 
+/*
+
+这段代码是 `WBTabWidget` 类中的 `webView` 成员函数。它用于获取指定索引的 `WBWebView` 对象。下面是对每个部分的详细分析：
+
+1. **`QWidget *widget = this->widget(index);`**:
+   - 获取指定索引 `index` 的标签页中的 `QWidget` 对象。`this->widget(index)` 是 `QTabWidget` 类的一个成员函数，用于返回标签页中的窗口部件。
+
+2. **`if (WBWebView *webView = qobject_cast<WBWebView*>(widget))`**:
+   - 使用 `qobject_cast` 将 `QWidget` 对象尝试转换为 `WBWebView` 类型。如果转换成功，则 `webView` 变量将指向该 `WBWebView` 对象。`qobject_cast` 是 Qt 提供的安全类型转换函数，确保对象确实是 `WBWebView` 类型。
+
+3. **`return webView;`**:
+   - 如果转换成功，返回 `WBWebView` 对象。
+
+4. **`else {`**:
+   - 如果转换不成功，即索引对应的标签页中不是 `WBWebView` 对象，则进入 `else` 分支。
+
+5. **`if (count() == 1) {`**:
+   - 检查标签页的数量是否为 1。如果标签页只有一个，则执行以下优化逻辑。
+
+6. **`WBTabWidget *that = const_cast<WBTabWidget*>(this);`**:
+   - 将 `const` 修饰的 `this` 指针转换为非 `const` 指针。这样可以在 `const` 成员函数中修改对象。
+
+7. **`that->setUpdatesEnabled(false);`**:
+   - 禁用更新，以提高性能，防止在创建和关闭标签页过程中引发多次不必要的界面重绘。
+
+8. **`that->newTab();`**:
+   - 创建一个新的标签页。`newTab()` 函数返回新创建的 `WBWebView` 对象，并将其设置为当前活动标签页。
+
+9. **`that->closeTab(0);`**:
+   - 关闭第一个（也是唯一的）标签页。这通常是用来替换当前的 `QWidget` 对象，确保新标签页能正确显示。
+
+10. **`that->setUpdatesEnabled(true);`**:
+    - 重新启用更新，以便显示新的标签页。
+
+11. **`return currentWebView();`**:
+    - 返回当前活动标签页中的 `WBWebView` 对象，因为刚才创建了新的标签页并将其设为当前标签页。
+
+12. **`return 0;`**:
+    - 如果标签页的数量不是 1 或其他情况下，返回 `0`，表示没有找到 `WBWebView` 对象。
+
+### 总结
+- 该函数尝试获取指定索引的 `WBWebView` 对象。如果索引对应的标签页不是 `WBWebView`，且标签页数为 1，它会创建一个新的标签页并返回其中的 `WBWebView` 对象。否则，返回 `0`。这种优化策略用于在需要时延迟创建 `WBWebView` 对象，避免不必要的开销。
+
+*/
+
 int WBTabWidget::webViewIndex(WBWebView *webView) const
 {
     int index = indexOf(webView);

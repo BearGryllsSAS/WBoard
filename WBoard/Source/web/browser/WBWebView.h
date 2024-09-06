@@ -65,6 +65,48 @@ private:
     QUrl mLoadingUrl;
 };
 
+/*
+
+这段代码定义了一个继承自 `WBWebPage_` 的类 `WBWebPage`，用于处理网页的页面逻辑。下面是每个部分的详细分析：
+
+1. **构造函数 `WBWebPage(QObject *parent = 0);`**:
+   - 初始化 `WBWebPage` 实例，`parent` 参数用于设置其父对象，默认为 `0`（即没有父对象）。
+
+2. **`WBBrowserWindow *mainWindow();`**:
+   - 声明了一个公有函数 `mainWindow()`，用于返回 `WBBrowserWindow` 类型的指针。这通常用于访问与 `WBWebPage` 关联的浏览器窗口。
+
+3. **`bool acceptNavigationRequest(QWebChannel *frame, const QNetworkRequest &request, NavigationType type);`**:
+   - 处理网页导航请求。参数包括当前的 `QWebChannel`，请求对象和导航类型。函数的返回值用于决定是否接受导航请求。
+
+4. **`QWebEnginePage *createWindow(QWebEnginePage::WebWindowType type);`**:
+   - 用于创建新的网页窗口。根据 `QWebEnginePage::WebWindowType` 类型返回相应的 `QWebEnginePage` 对象，处理窗口创建。
+
+5. **`QObject *createPlugin(const QString &classId, const QUrl &url, const QStringList &paramNames, const QStringList &paramValues);`**:
+   - 创建插件。根据传入的类 ID、URL 及参数名称和值，返回相应的 `QObject` 插件对象。
+
+6. **`signals: void loadingUrl(const QUrl &url);`**:
+   - 声明了一个信号 `loadingUrl`，在网页加载过程中发射，传递当前的 URL。
+
+7. **`private slots: void handleUnsupportedContent(QNetworkReply *reply);`**:
+   - 声明了一个私有槽函数 `handleUnsupportedContent`，处理不支持的内容的网络回复。
+
+8. **`private:`**
+   - **`friend class WBWebView;`**:
+     - 声明 `WBWebView` 为 `WBWebPage` 的友元类，允许 `WBWebView` 访问 `WBWebPage` 的私有成员。
+   - **`Qt::KeyboardModifiers mKeyboardModifiers;`**:
+     - 存储键盘修饰符状态，如 Shift、Ctrl 键等。
+   - **`Qt::MouseButtons mPressedButtons;`**:
+     - 存储当前按下的鼠标按钮状态。
+   - **`bool mOpenInNewTab;`**:
+     - 标志位，指示是否在新标签页中打开内容。
+   - **`QUrl mLoadingUrl;`**:
+     - 存储当前正在加载的 URL。
+
+### 总结
+- `WBWebPage` 类用于管理和处理网页页面的各种功能，包括导航请求、窗口创建和插件管理。它还提供了信号来通知 URL 加载状态，以及处理不支持的内容的槽函数。通过友元类和私有成员，它管理与网页交互的详细状态和行为。
+
+*/
+
 class WBWebView : public WBWebTrapWebView
 {
     Q_OBJECT
