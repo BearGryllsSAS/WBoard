@@ -241,3 +241,39 @@ void WBOEmbedParser::onFinished(QNetworkReply *reply)
         emit oembedParsed(mContents);
     }
 }
+
+/*
+
+这段代码定义了一个 `WBOEmbedParser` 类，用于解析网页中的 oEmbed 信息。具体功能和每个函数的作用如下：
+
+### `WBOEmbedParser` 类
+
+1. **构造函数 `WBOEmbedParser(QObject *parent, const char* name)`**
+   - 初始化 `WBOEmbedParser` 对象。设置对象名称，并连接 `parseContent` 信号到 `onParseContent` 槽函数。
+
+2. **析构函数 `~WBOEmbedParser()`**
+   - 析构函数，不执行任何操作。
+
+3. **`setNetworkAccessManager(QNetworkAccessManager *nam)`**
+   - 设置网络访问管理器 `mpNam`，并将 `QNetworkAccessManager` 的 `finished` 信号连接到 `onFinished` 槽函数。
+
+4. **`parse(const QString& html)`**
+   - 解析 HTML 内容，提取 `<link>` 元素的属性。检查这些 `<link>` 元素是否包含 oEmbed 相关的信息（`type` 属性包含 "oembed"），并收集 oEmbed URL。若找到 oEmbed URL，则发射 `parseContent` 信号以处理每个 URL。
+
+5. **`getJSONInfos(const QString &json)`**
+   - 解析 JSON 格式的 oEmbed 数据。使用 `QJSEngine` 执行 JSON 数据，并提取相关字段（如 `provider_url`、`title`、`html`、`author_name` 等）。根据 oEmbed 的 `type` 字段（"photo" 或 "video"），进一步提取 URL。
+
+6. **`getXMLInfos(const QString &xml)`**
+   - 解析 XML 格式的 oEmbed 数据。使用 `QDomDocument` 解析 XML 数据，提取相关字段（如 `provider_url`、`title`、`html`、`author_name` 等）。根据 oEmbed 的 `type` 字段（"photo" 或 "video"），进一步提取 URL。
+
+7. **`onParseContent(QString url)`**
+   - 处理 oEmbed URL。将 URL 转换为 `QUrl` 并创建 `QNetworkRequest`。如果 `mpNam` 不为空，则发起网络请求获取 URL 对应的内容。
+
+8. **`onFinished(QNetworkReply *reply)`**
+   - 处理网络请求完成的结果。根据返回的数据格式（JSON 或 XML），调用相应的解析函数（`getJSONInfos` 或 `getXMLInfos`）。检查内容的标题是否已解析，以避免重复。更新 `mPending` 计数器，并在所有 oEmbed 内容解析完成时发射 `oembedParsed` 信号。
+
+### 总结
+
+`WBOEmbedParser` 类用于从 HTML 内容中提取 oEmbed URL，并通过网络请求获取 oEmbed 数据。根据数据格式（JSON 或 XML），它解析数据并提取相关信息。解析结果不包括重复的标题，并在所有内容解析完成后发射信号通知解析结束。
+
+*/

@@ -76,7 +76,10 @@ void WBToolbarSearch::searchNow()
         mAutosaver->changeOccurred();
     }
 
-    QUrl url(QLatin1String("http://www.baidu.com/"));
+    // QUrl url(QLatin1String("http://tieba.baidu.com//"));
+    QUrl url(QLatin1String("https://tieba.baidu.com/"));
+
+
     QUrlQuery urlQuery;
 
     urlQuery.addQueryItem(QLatin1String("q"), searchText);

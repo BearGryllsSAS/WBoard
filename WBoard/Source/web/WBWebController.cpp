@@ -67,8 +67,8 @@ void WBWebController::webBrowserInstance()
 {
     qDebug() << "in WBWebController::webBrowserInstance() : " << "Create a browser instance\n";
 
-    QString webHomePage = WBSettings::settings()->webHomePage->get().toString();
-    QUrl currentUrl = WBBrowserWindow::guessUrlFromString(webHomePage);
+    QString webHomePage = WBSettings::settings()->webHomePage->get().toString();                                    // 从 WBSettings::settings() 中初始化 webHomePage && 从 WBSetting::get() 中获取 url
+    QUrl currentUrl = WBBrowserWindow::guessUrlFromString(webHomePage);                                             // 
 
     if (WBSettings::settings()->webUseExternalBrowser->get().toBool())
     {

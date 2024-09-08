@@ -198,7 +198,7 @@ void WBSettings::ValidateKeyboardPaletteKeyBtnSize()
 
 void WBSettings::init()
 {
-    productWebUrl =  new WBSetting(this, "App", "ProductWebAddress", "http://www.baidu.com");
+    productWebUrl =  new WBSetting(this, "App", "ProductWebAddress", "http://tieba.baidu.com/");
 
     softwareHomeUrl = productWebUrl->get().toString();
 
@@ -208,7 +208,7 @@ void WBSettings::init()
     appToolBarPositionedAtTop = new WBSetting(this, "App", "ToolBarPositionedAtTop", true);
     appToolBarDisplayText = new WBSetting(this, "App", "ToolBarDisplayText", true);
     appEnableAutomaticSoftwareUpdates = new WBSetting(this, "App", "EnableAutomaticSoftwareUpdates", false);
-    appSoftwareUpdateURL = new WBSetting(this, "App", "SoftwareUpdateURL", "http://www.baidu.com");
+    appSoftwareUpdateURL = new WBSetting(this, "App", "SoftwareUpdateURL", "http://tieba.baidu.com/");
     appHideCheckForSoftwareUpdate = new WBSetting(this, "App", "HideCheckForSoftwareUpdate", false);
     appHideSwapDisplayScreens = new WBSetting(this, "App", "HideSwapDisplayScreens", true);
     appToolBarOrientationVertical = new WBSetting(this, "App", "ToolBarOrientationVertical", false);
@@ -328,8 +328,8 @@ void WBSettings::init()
     webShowPageImmediatelyOnMirroredScreen = new WBSetting(this, "Web", "ShowPageImediatelyOnMirroredScreen", defaultShowPageImmediatelyOnMirroredScreen);
 
     webHomePage = new WBSetting(this, "Web", "Homepage", softwareHomeUrl);
-    webBookmarksPage = new WBSetting(this, "Web", "BookmarksPage", "http://www.baidu.com");
-    webAddBookmarkUrl = new WBSetting(this, "Web", "AddBookmarkURL", "http://www.baidu.com");
+    webBookmarksPage = new WBSetting(this, "Web", "BookmarksPage", "http://tieba.baidu.com/");
+    webAddBookmarkUrl = new WBSetting(this, "Web", "AddBookmarkURL", "http://tieba.baidu.com/");
     webShowAddBookmarkButton = new WBSetting(this, "Web", "ShowAddBookmarkButton", false);
 
     pageCacheSize = new WBSetting(this, "App", "PageCacheSize", 20);
