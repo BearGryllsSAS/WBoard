@@ -41,7 +41,7 @@ void WBExportDocumentSetAdaptor::persist(WBDocumentProxy* pDocumentProxy)
     if (pDocumentProxy) {
         treeViewParentIndex = treeModel->indexForProxy(pDocumentProxy);
         if (!treeViewParentIndex.isValid()) {
-            qDebug() << "failed to export";
+            qDebug() << "in WBExportDocumentSetAdaptor::persist(WBDocumentProxy* pDocumentProxy) : " << "failed to export";
             WBApplication::showMessage(tr("Failed to export..."));
             return;
         }
@@ -50,7 +50,7 @@ void WBExportDocumentSetAdaptor::persist(WBDocumentProxy* pDocumentProxy)
     } else {
         treeViewParentIndex = WBApplication::documentController->firstSelectedTreeIndex();
         if (!treeViewParentIndex.isValid()) {
-            qDebug() << "failed to export";
+            qDebug() << "in WBExportDocumentSetAdaptor::persist(WBDocumentProxy* pDocumentProxy) : " << "failed to export";
             WBApplication::showMessage(tr("Failed to export..."));
             return;
         }

@@ -52,7 +52,7 @@ bool WBExportPDF::persistsDocument(WBDocumentProxy* pDocumentProxy, const QStrin
 {
     QPdfWriter pdfWriter(filename);
 
-    qDebug() << "exporting document to PDF" << filename;
+    qDebug() << "in WBExportPDF::persistsDocument(WBDocumentProxy* pDocumentProxy, const QString& filename) : " << "exporting document to PDF" << filename;
 
     pdfWriter.setResolution(WBSettings::settings()->pdfResolution->get().toInt());
     pdfWriter.setPageMargins(QMarginsF());

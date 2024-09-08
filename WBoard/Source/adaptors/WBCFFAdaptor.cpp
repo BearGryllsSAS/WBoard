@@ -22,30 +22,30 @@ WBCFFAdaptor::WBCFFAdaptor()
 
 bool WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to)
 {
-    qDebug() << "starting converion from" << from << "to" << to;
+    qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "starting converion from" << from << "to" << to;
 
     QString source = QString();
     if (QFileInfo(from).isDir() && QFile::exists(from)) {
-        qDebug() << "File specified is dir, continuing convertion";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "File specified is dir, continuing convertion";
         source = from;
     } else {
         source = uncompressZip(from);
-        if (!source.isNull()) qDebug() << "File specified is zip file. Uncompressed to tmp dir, continuing convertion";
+        if (!source.isNull()) qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "File specified is zip file. Uncompressed to tmp dir, continuing convertion";
     }
     if (source.isNull()) {
-        qDebug() << "File specified is not a dir or a zip file, stopping covretion";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "File specified is not a dir or a zip file, stopping covretion";
         return false;
     }
 
     QString tmpDestination = createNewTmpDir();
     if (tmpDestination.isNull()) {
-        qDebug() << "can't create temp destination folder. Stopping parsing...";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "can't create temp destination folder. Stopping parsing...";
         return false;
     }
 
     WBToCFFConverter tmpConvertrer(source, tmpDestination);
     if (!tmpConvertrer) {
-        qDebug() << "The convertrer class is invalid, stopping conversion. Error message" << tmpConvertrer.lastErrStr();
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "The convertrer class is invalid, stopping conversion. Error message" << tmpConvertrer.lastErrStr();
         return false;
     }
 
@@ -58,15 +58,15 @@ bool WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to)
     }
 
     if (!compressZip(tmpDestination, to))
-        qDebug() << "error in compression";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "error in compression";
 
     //Cleanning tmp souces in filesystem
     if (!QFileInfo(from).isDir())
     if (!freeDir(source))
-        qDebug() << "can't delete tmp directory" << QDir(source).absolutePath() << "try to delete them manually";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "can't delete tmp directory" << QDir(source).absolutePath() << "try to delete them manually";
 
     if (!freeDir(tmpDestination))
-        qDebug() << "can't delete tmp directory" << QDir(tmpDestination).absolutePath() << "try to delete them manually";
+        qDebug() << "in WBCFFAdaptor::convertWBZToIWB(const QString &from, const QString &to) : " << "can't delete tmp directory" << QDir(tmpDestination).absolutePath() << "try to delete them manually";
 
     return true;
 }
@@ -76,7 +76,7 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
     QuaZip zip(zipFile);
 
     if(!zip.open(QuaZip::mdUnzip)) {
-        qWarning() << "Import failed. Cause zip.open(): " << zip.getZipError();
+        qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause zip.open(): " << zip.getZipError();
         return QString();
     }
 
@@ -87,7 +87,7 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
     QString documentRootFolder = createNewTmpDir();
 
     if (documentRootFolder.isNull()) {
-        qDebug() << "can't create tmp directory for zip file" << zipFile;
+        qDebug() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "can't create tmp directory for zip file" << zipFile;
         return QString();
     }
 
@@ -97,7 +97,7 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
     bool allOk = true;
     for(bool more = zip.goToFirstFile(); more; more=zip.goToNextFile()) {
         if(!zip.getCurrentFileInfo(&info)) {
-            qWarning() << "Import failed. Cause: getCurrentFileInfo(): " << zip.getZipError();
+            qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: getCurrentFileInfo(): " << zip.getZipError();
             allOk = false;
             break;
         }
@@ -106,7 +106,7 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
             break;
         }
         if(file.getZipError()!= UNZ_OK) {
-            qWarning() << "Import failed. Cause: file.getFileName(): " << zip.getZipError();
+            qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: file.getFileName(): " << zip.getZipError();
             allOk = false;
             break;
         }
@@ -125,19 +125,19 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
         out.close();
 
         if(file.getZipError()!=UNZ_OK) {
-            qWarning() << "Import failed. Cause: " << zip.getZipError();
+            qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: " << zip.getZipError();
             allOk = false;
             break;
         }
         if(!file.atEnd()) {
-            qWarning() << "Import failed. Cause: read all but not EOF";
+            qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: read all but not EOF";
             allOk = false;
             break;
         }
         file.close();
 
         if(file.getZipError()!=UNZ_OK) {
-            qWarning() << "Import failed. Cause: file.close(): " <<  file.getZipError();
+            qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: file.close(): " <<  file.getZipError();
             allOk = false;
             break;
         }
@@ -151,7 +151,7 @@ QString WBCFFAdaptor::uncompressZip(const QString &zipFile)
     }
 
     if(zip.getZipError()!=UNZ_OK) {
-        qWarning() << "Import failed. Cause: zip.close(): " << zip.getZipError();
+        qWarning() << "in WBCFFAdaptor::uncompressZip(const QString &zipFile) : " << "Import failed. Cause: zip.close(): " << zip.getZipError();
         return QString();
     }
 
@@ -163,14 +163,14 @@ bool WBCFFAdaptor::compressZip(const QString &source, const QString &destination
     QDir toDir = QFileInfo(destination).dir();
     if (!toDir.exists())
         if (!QDir().mkpath(toDir.absolutePath())) {
-            qDebug() << "can't create destination folder to uncompress file";
+            qDebug() << "in WBCFFAdaptor::compressZip(const QString &source, const QString &destination) : " << "can't create destination folder to uncompress file";
             return false;
         }
 
     QuaZip zip(destination);
     zip.setFileNameCodec("UTF-8");
     if(!zip.open(QuaZip::mdCreate)) {
-        qDebug("Export failed. Cause: zip.open(): %d", zip.getZipError());
+        qDebug("in WBCFFAdaptor::compressZip(const QString &source, const QString &destination) : WBCFFAdaptor::compressZip(const QString &source, const QString &destination) : Export failed. Cause: zip.open(): %d", zip.getZipError());
         return false;
     }
 
@@ -197,7 +197,7 @@ bool WBCFFAdaptor::compressDir(const QString &dirName, const QString &parentDir,
 
         if (curFile.isDir()) {
             if (!compressDir(curFile.absoluteFilePath(), parentDir + curFile.fileName() + "/", outZip)) {
-                qDebug() << "error at compressing dir" << curFile.absoluteFilePath();
+                qDebug() << "in WBCFFAdaptor::compressDir(const QString &dirName, const QString &parentDir, QuaZipFile *outZip) : " << "error at compressing dir" << curFile.absoluteFilePath();
                 return false;
             }
         } else if (curFile.isFile()) {
@@ -215,19 +215,19 @@ bool WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDi
     QFile sourceFile(fileName);
 
     if(!sourceFile.open(QIODevice::ReadOnly)) {
-        qDebug() << "Compression of file" << sourceFile.fileName() << " failed. Cause: inFile.open(): " << sourceFile.errorString();
+        qDebug() << "in WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDir, QuaZipFile *outZip) : " << "Compression of file" << sourceFile.fileName() << " failed. Cause: inFile.open(): " << sourceFile.errorString();
         return false;
     }
 
     if(!outZip->open(QIODevice::WriteOnly, QuaZipNewInfo(parentDir + QFileInfo(fileName).fileName(), sourceFile.fileName()))) {
-        qDebug() << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.open(): " << outZip->getZipError();
+        qDebug() << "in WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDir, QuaZipFile *outZip) : " << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.open(): " << outZip->getZipError();
         sourceFile.close();
         return false;
     }
 
     outZip->write(sourceFile.readAll());
     if(outZip->getZipError() != UNZ_OK) {
-        qDebug() << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.write(): " << outZip->getZipError();
+        qDebug() << "in WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDir, QuaZipFile *outZip) : " << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.write(): " << outZip->getZipError();
 
         sourceFile.close();
         outZip->close();
@@ -236,7 +236,7 @@ bool WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDi
 
     if(outZip->getZipError() != UNZ_OK)
     {
-        qWarning() << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.close(): " << outZip->getZipError();
+        qWarning() << "in WBCFFAdaptor::compressFile(const QString &fileName, const QString &parentDir, QuaZipFile *outZip) : " << "Compression of file" << sourceFile.fileName() << " failed. Cause: outFile.close(): " << outZip->getZipError();
 
         sourceFile.close();
         outZip->close();
@@ -264,11 +264,11 @@ QString WBCFFAdaptor::createNewTmpDir()
                 tmpDirs.append(result);
                 return result;
             } else {
-                qDebug() << "Can't create temporary dir maybe due to permissions";
+                qDebug() << "in WBCFFAdaptor::createNewTmpDir() : " << "Can't create temporary dir maybe due to permissions";
                 return QString();
             }
         } else if (tmpNumber == 10) {
-            qWarning() << "Import failed. Failed to create temporary file ";
+            qWarning() << "in WBCFFAdaptor::createNewTmpDir() : " << "Import failed. Failed to create temporary file ";
             return QString();
         }
         tmpNumber++;
@@ -358,15 +358,15 @@ WBCFFAdaptor::WBToCFFConverter::WBToCFFConverter(const QString &source, const QS
 bool WBCFFAdaptor::WBToCFFConverter::parse()
 {
     if(!isValid()) {
-        qDebug() << "document metadata is not valid. Can't parse";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parse() : " << "document metadata is not valid. Can't parse";
         return false;
     }
 
-    qDebug() << "begin parsing ubz";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parse() : " << "begin parsing ubz";
 
     QFile outFile(contentIWBFileName());
     if (!outFile.open(QIODevice::WriteOnly| QIODevice::Text)) {
-        qDebug() << "can't open output file for writing";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parse() : " << "can't open output file for writing";
         errorStr = "createXMLOutputPatternError";
         return false;
     }
@@ -400,7 +400,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parse()
 
     outFile.close();
 
-    qDebug() << "finished with success";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parse() : " << "finished with success";
 
     return true;
 }
@@ -411,11 +411,11 @@ bool WBCFFAdaptor::WBToCFFConverter::parseMetadata()
 
     if (!metaDataFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         errorStr = "can't open" + QFileInfo(sourcePath + "/" + fMetadata).absoluteFilePath();
-        qDebug() << errorStr;
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseMetadata() : " << errorStr;
         return false;
 
     } else if (!mDataModel->setContent(metaDataFile.readAll(), true, &errorStr, &errorLine, &errorColumn)) {
-        qWarning() << "Error:Parseerroratline" << errorLine << ","
+        qWarning() << "in WBCFFAdaptor::WBToCFFConverter::parseMetadata() : " << "Error:Parseerroratline" << errorLine << ","
                    << "column" << errorColumn << ":" << errorStr;
         return false;
     }
@@ -455,7 +455,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseMetadata()
                     if (!tmpSize.isNull()) {
                         mSVGSize = tmpSize;
                     } else {
-                        qDebug() << "can't interpret svg section size";
+                        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseMetadata() : " << "can't interpret svg section size";
                         errorStr = "InterpretSvgSizeError";
                         return false;
                     }
@@ -474,7 +474,8 @@ bool WBCFFAdaptor::WBToCFFConverter::parseMetadata()
     metaDataFile.close();
     return true;
 }
-bool WBCFFAdaptor::WBToCFFConverter::parseContent() {
+bool WBCFFAdaptor::WBToCFFConverter::parseContent() 
+{
 
     QDir sourceDir(sourcePath);
     QStringList fileFilters;
@@ -484,7 +485,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseContent() {
     QDomElement svgDocumentSection = mDataModel->createElementNS(svgIWBNS, ":"+tSvg);
 
     if (!pageList.count()) {
-        qDebug() << "can't find any content file";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseContent() : " << "can't find any content file";
         errorStr = "ErrorContentFile";
         return false;
     } else 
@@ -521,17 +522,17 @@ bool WBCFFAdaptor::WBToCFFConverter::parseContent() {
 
 QDomElement WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName)
 {
-    qDebug() << "begin parsing page" + pageFileName;
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName) : " << "begin parsing page" + pageFileName;
     mSvgElements.clear(); 
 
     int errorLine, errorColumn;
 
     QFile pageFile(sourcePath + "/" + pageFileName);
     if (!pageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "can't open file" << pageFileName << "for reading";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName) : " << "can't open file" << pageFileName << "for reading";
         return QDomElement();
     } else if (!mDataModel->setContent(pageFile.readAll(), true, &errorStr, &errorLine, &errorColumn)) {
-        qWarning() << "Error:Parseerroratline" << errorLine << ","
+        qWarning() << "in WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName) : " << "Error:Parseerroratline" << errorLine << ","
                    << "column" << errorColumn << ":" << errorStr;
         pageFile.close();
         return QDomElement();
@@ -546,14 +547,14 @@ QDomElement WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileNam
         if (tagname == tSvg) {
             page = parseSvgPageSection(nextTopElement);
             if (page.isNull()) {
-                qDebug() << "The page is empty.";
+                qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName) : " << "The page is empty.";
                 pageFile.close();
                 return QDomElement();
             }
         } else if (tagname == tWBZGroups) {
             group = parseGroupsPageSection(nextTopElement);
             if (group.isNull()) {
-                qDebug() << "Page doesn't contains any groups.";
+                qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parsePage(const QString &pageFileName) : " << "Page doesn't contains any groups.";
                 pageFile.close();
                 return QDomElement();
             }
@@ -679,7 +680,7 @@ void WBCFFAdaptor::WBToCFFConverter::writeQDomElementToXML(const QDomNode &node)
 bool WBCFFAdaptor::WBToCFFConverter::writeExtendedIwbSection()
 {
     if (!mExtendedElements.count()) {
-        qDebug() << "extended iwb content list is empty";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::writeExtendedIwbSection() : " << "extended iwb content list is empty";
         errorStr = "EmptyExtendedIwbSectionContentError";
         return false;
     }
@@ -694,7 +695,7 @@ bool WBCFFAdaptor::WBToCFFConverter::writeExtendedIwbSection()
 QDomElement WBCFFAdaptor::WBToCFFConverter::parseGroupsPageSection(const QDomElement &groupRoot)
 {
     if (!groupRoot.hasChildNodes()) {
-        qDebug() << "Group root is empty";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseGroupsPageSection(const QDomElement &groupRoot) : " << "Group root is empty";
         return QDomElement();
     }
 
@@ -716,7 +717,7 @@ QDomElement WBCFFAdaptor::WBToCFFConverter::parseGroupsPageSection(const QDomEle
         groupElement = groupElement.nextSiblingElement();
     }
 
-    qDebug() << "parsing ubz group section";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseGroupsPageSection(const QDomElement &groupRoot) : " << "parsing ubz group section";
     return groupRoot;
 }
 
@@ -963,7 +964,7 @@ bool WBCFFAdaptor::WBToCFFConverter::ibwAddLine(int x1, int y1, int x2, int y2, 
 
     if (!bRet)
     {
-        qDebug() << "|error at creating crosses on background";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::ibwAddLine(int x1, int y1, int x2, int y2, QString color, int width, bool isBackground) : " << "|error at creating crosses on background";
         errorStr = "CreatingCrossedBackgroundParsingError.";
     }
 
@@ -1139,7 +1140,7 @@ bool WBCFFAdaptor::WBToCFFConverter::setContentFromWBZ(const QDomElement &ubzEle
    
     if (!bRet)
     {
-        qDebug() << "format is not supported by CFF";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::setContentFromWBZ(const QDomElement &ubzElement, QDomElement &svgElement) : " << "format is not supported by CFF";
     }
 
     return bRet;
@@ -1389,7 +1390,7 @@ QDomNode WBCFFAdaptor::WBToCFFConverter::findNodeByTagName(const QDomNode &node,
 
 bool WBCFFAdaptor::WBToCFFConverter::createBackground(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|creating element background";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::createBackground(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|creating element background";
 	
     QDomDocument doc;
 
@@ -1430,7 +1431,7 @@ bool WBCFFAdaptor::WBToCFFConverter::createBackground(const QDomElement &element
     }
     else
     {
-        qDebug() << "|error at creating element background";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::createBackground(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at creating element background";
         errorStr = "CreatingElementBackgroundParsingError.";
         return false;
     }
@@ -1529,10 +1530,10 @@ bool WBCFFAdaptor::WBToCFFConverter::createPngFromSvg(QString &svgPath, QString 
 
 bool WBCFFAdaptor::WBToCFFConverter::parseSVGGGroup(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|parsing g section";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseSVGGGroup(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing g section";
     QDomElement nextElement = element.firstChildElement();
     if (nextElement.isNull()) {
-        qDebug() << "Empty g element";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseSVGGGroup(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "Empty g element";
         errorStr = "EmptyGSection";
         return false;
     }
@@ -1572,7 +1573,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseSVGGGroup(const QDomElement &element, 
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZImage(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|parsing image";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZImage(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing image";
 
     QDomDocument doc;
 
@@ -1589,7 +1590,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZImage(const QDomElement &element, Q
     }
     else
     {
-        qDebug() << "|error at image parsing";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZImage(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at image parsing";
         errorStr = "ImageParsingError";
         return false;
 
@@ -1598,7 +1599,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZImage(const QDomElement &element, Q
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZVideo(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|parsing video";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZVideo(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing video";
 
     QDomDocument doc;
 
@@ -1630,7 +1631,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZVideo(const QDomElement &element, Q
     }
     else
     {
-        qDebug() << "|error at video parsing";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZVideo(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at video parsing";
         errorStr = "VideoParsingError";
         return false;
     }
@@ -1638,7 +1639,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZVideo(const QDomElement &element, Q
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZAudio(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|parsing audio";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZAudio(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing audio";
 
     QDomDocument doc;
 
@@ -1696,7 +1697,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZAudio(const QDomElement &element, Q
     }
     else
     {
-        qDebug() << "|error at audio parsing";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZAudio(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at audio parsing";
         errorStr = "AudioParsingError";
         return false;
     }
@@ -1708,7 +1709,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseForeignObject(const QDomElement &eleme
         return parseWBZText(element, dstSvgList);
     }
 
-    qDebug() << "|parsing foreign object";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseForeignObject(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing foreign object";
 
     QDomDocument doc;
 
@@ -1724,7 +1725,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseForeignObject(const QDomElement &eleme
     }
     else
     {
-        qDebug() << "|error at parsing foreign object";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseForeignObject(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at parsing foreign object";
         errorStr = "ForeignObjectParsingError";
         return false;
     }
@@ -1732,7 +1733,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseForeignObject(const QDomElement &eleme
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZText(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "|parsing text";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZText(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|parsing text";
 
     QDomDocument doc;
 
@@ -1778,7 +1779,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZText(const QDomElement &element, QM
     }
     else
     {
-        qDebug() << "|error at text parsing";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZText(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "|error at text parsing";
         errorStr = "TextParsingError";
         return false;
     }
@@ -1786,7 +1787,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZText(const QDomElement &element, QM
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolygon(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "||parsing polygon";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZPolygon(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||parsing polygon";
 
     QDomDocument doc;
 
@@ -1813,7 +1814,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolygon(const QDomElement &element,
     }
     else
     {
-        qDebug() << "||error at parsing polygon";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZPolygon(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||error at parsing polygon";
         errorStr = "PolygonParsingError";
         return false;
     }
@@ -1821,7 +1822,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolygon(const QDomElement &element,
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolyline(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {
-    qDebug() << "||parsing polyline";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZPolyline(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||parsing polyline";
     QDomElement resElement;
 
     QDomDocument doc;
@@ -1846,7 +1847,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolyline(const QDomElement &element
     }
     else
     {
-        qDebug() << "||error at parsing polygon";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZPolyline(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||error at parsing polygon";
         errorStr = "PolylineParsingError";
         return false;
     }
@@ -1855,7 +1856,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZPolyline(const QDomElement &element
 
 bool WBCFFAdaptor::WBToCFFConverter::parseWBZLine(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList)
 {   
-    qDebug() << "||parsing line";
+    qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZLine(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||parsing line";
     QDomElement resElement;
     QDomDocument doc;
 
@@ -1878,7 +1879,7 @@ bool WBCFFAdaptor::WBToCFFConverter::parseWBZLine(const QDomElement &element, QM
     }
     else
     {
-        qDebug() << "||error at parsing polygon";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::parseWBZLine(const QDomElement &element, QMultiMap<int, QDomElement> &dstSvgList) : " << "||error at parsing polygon";
         errorStr = "LineParsingError";
         return false;
     }
@@ -1917,7 +1918,7 @@ bool WBCFFAdaptor::WBToCFFConverter::isValid() const
                && errorStr == noErrorMsg;
 
     if (!result) {
-        qDebug() << "specified data is not valid";
+        qDebug() << "in WBCFFAdaptor::WBToCFFConverter::isValid() const : " << "specified data is not valid";
         errorStr = "ValidateDataError";
     }
 

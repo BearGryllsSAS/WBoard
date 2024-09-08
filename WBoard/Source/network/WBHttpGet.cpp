@@ -17,6 +17,7 @@ WBHttpGet::WBHttpGet(QObject* parent)
     , mIsSelfAborting(false)
 {
     // NOOP
+    qDebug() << "in WBHttpGet::WBHttpGet(QObject* parent) : " << "constructor\n";
 }
 
 

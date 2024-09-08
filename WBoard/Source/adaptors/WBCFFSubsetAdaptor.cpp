@@ -123,13 +123,13 @@ WBCFFSubsetAdaptor::WBCFFSubsetReader::WBCFFSubsetReader(WBDocumentProxy *proxy,
     int errorLine, errorColumn;
     QString errorStr;
     if(!mDOMdoc.setContent(content, true, &errorStr, &errorLine, &errorColumn)){
-        qWarning() << "Error:Parseerroratline" << errorLine << ","
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::WBCFFSubsetReader(WBDocumentProxy *proxy, QFile *content) : " << "Error:Parseerroratline" << errorLine << ","
                   << "column" << errorColumn << ":" << errorStr;
     } else {
-        qDebug() << "well parsed to DOM";
+        qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::WBCFFSubsetReader(WBDocumentProxy *proxy, QFile *content) : " << "well parsed to DOM";
         pwdContent = QFileInfo(content->fileName()).dir().absolutePath();
     }
-    qDebug() << "tmp path is" << pwdContent;
+    qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::WBCFFSubsetReader(WBDocumentProxy *proxy, QFile *content) : " << "tmp path is" << pwdContent;
 }
 bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parse()
 {
@@ -842,14 +842,14 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgImage(const QDomElement &ele
     if (!itemRefPath.isNull()) {
         QString imagePath = pwdContent + "/" + itemRefPath;
         if (!QFile::exists(imagePath)) {
-            qDebug() << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgImage(const QDomElement &element) : " << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
             return false;
         } else {
 //            qDebug() << "size of file" << itemRefPath << QFileInfo(itemRefPath).size();
         }
         pix.load(imagePath);
         if (pix.isNull()) {
-            qDebug() << "can't create pixmap for file" << pwdContent + "/" + itemRefPath << "maybe format does not supported";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgImage(const QDomElement &element) : " << "can't create pixmap for file" << pwdContent + "/" + itemRefPath << "maybe format does not supported";
         }
     }
 
@@ -890,14 +890,14 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgFlash(const QDomElement &ele
     if (!itemRefPath.isNull()) {
         flashPath = pwdContent + "/" + itemRefPath;
         if (!QFile::exists(flashPath)) {
-            qDebug() << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgFlash(const QDomElement &element) : " << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
             return false;
         }
         urlPath = QUrl::fromLocalFile(flashPath);
     }
     QDir tmpFlashDir(mTmpFlashDir);
     if (!tmpFlashDir.exists()) {
-        qDebug() << "Can't create temporary directory to put flash";
+        qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgFlash(const QDomElement &element) : " << "Can't create temporary directory to put flash";
         return false;
     }
 
@@ -941,7 +941,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgAudio(const QDomElement &ele
     if (!itemRefPath.isNull()) {
         QString audioPath = pwdContent + "/" + itemRefPath;
         if (!QFile::exists(audioPath)) {
-            qDebug() << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgAudio(const QDomElement &element) : " << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
             return false;
         }
         concreteUrl = QUrl::fromLocalFile(audioPath);
@@ -996,7 +996,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgVideo(const QDomElement &ele
     if (!itemRefPath.isNull()) {
         QString videoPath = pwdContent + "/" + itemRefPath;
         if (!QFile::exists(videoPath)) {
-            qDebug() << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgVideo(const QDomElement &element) : " << "can't load file" << pwdContent + "/" + itemRefPath << "maybe file corrupted";
             return false;
         }
         concreteUrl = QUrl::fromLocalFile(videoPath);
@@ -1063,7 +1063,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgElement(const QDomElement &p
 {
     QString tagName = parent.tagName();
     if (parent.namespaceURI() != svgNS) {
-        qWarning() << "Incorrect namespace, error at content file, line number" << parent.lineNumber();
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgElement(const QDomElement &parent) : " << "Incorrect namespace, error at content file, line number" << parent.lineNumber();
         //return false;
     }
 
@@ -1110,7 +1110,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvgPageset(const QDomElement &p
 bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbMeta(const QDomElement &element)
 {
     if (element.namespaceURI() != iwbNS) {
-        qWarning() << "incorrect meta namespace, incorrect document";
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbMeta(const QDomElement &element) : " << "incorrect meta namespace, incorrect document";
         //return false;
     }
 
@@ -1119,7 +1119,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbMeta(const QDomElement &elem
 bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvg(const QDomElement &svgSection)
 {
     if (svgSection.namespaceURI() != svgNS) {
-        qWarning() << "incorrect svg namespace, incorrect document";
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseSvg(const QDomElement &svgSection) : " << "incorrect svg namespace, incorrect document";
        // return false;
     }
 
@@ -1139,7 +1139,7 @@ WBGraphicsGroupContainerItem *WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbGro
 {
     //TODO. Create groups from elements parsed by parseIwbElement() function
     if (parent.namespaceURI() != iwbNS) {
-        qWarning() << "incorrect iwb group namespace, incorrect document";
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbGroup(QDomElement &parent) : " << "incorrect iwb group namespace, incorrect document";
       //  return false;
     }
 
@@ -1231,7 +1231,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::strToBool(QString str)
 bool WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbElement(QDomElement &element)
 {
     if (element.namespaceURI() != iwbNS) {
-        qWarning() << "incorrect iwb element namespace, incorrect document";
+        qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::parseIwbElement(QDomElement &element) : " << "incorrect iwb element namespace, incorrect document";
       //  return false;
     }
 
@@ -1340,13 +1340,13 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::persistCurrentScene()
 bool WBCFFSubsetAdaptor::WBCFFSubsetReader::persistScenes()
 {
     if (!mProxy->pageCount()) {
-        qDebug() << "No pages created";
+        qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::persistScenes() : " << "No pages created";
         return false;
     }
     for (int i = 0; i < mProxy->pageCount(); i++) {
         mCurrentScene = WBPersistenceManager::persistenceManager()->getDocumentScene(mProxy, i);
         if (!mCurrentScene) {
-            qDebug() << "can't allocate scene, loading failed";
+            qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::persistScenes() : " << "can't allocate scene, loading failed";
             return false;
         }
 
@@ -1486,7 +1486,7 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::getTempFileName()
         tmpNumber++;
         if (tmpNumber == 100000)
         {
-            qWarning() << "Import failed. Failed to create temporary file for svg objects";
+            qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::getTempFileName() : " << "Import failed. Failed to create temporary file for svg objects";
             return false;
         }
     }
@@ -1505,11 +1505,11 @@ bool WBCFFSubsetAdaptor::WBCFFSubsetReader::createTempFlashPath()
                 mTmpFlashDir = QDir(systemTmp.absolutePath() + "/" + dirName);
                 return true;
             } else {
-                qDebug() << "Can't create temporary dir maybe due to permissions";
+                qDebug() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::createTempFlashPath() : " << "Can't create temporary dir maybe due to permissions";
                 return false;
             }
         } else if (tmpNumber == 1000) {
-            qWarning() << "Import failed. Failed to create temporary file for svg objects";
+            qWarning() << "in WBCFFSubsetAdaptor::WBCFFSubsetReader::createTempFlashPath() : " << "Import failed. Failed to create temporary file for svg objects";
             return false;
         }
     }

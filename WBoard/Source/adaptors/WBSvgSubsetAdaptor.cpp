@@ -210,14 +210,14 @@ QString WBSvgSubsetAdaptor::uniboardDocumentNamespaceUriFromVersion(int mFileVer
 WBGraphicsScene* WBSvgSubsetAdaptor::loadScene(WBDocumentProxy* proxy, const int pageIndex)
 {
     QString fileName = proxy->persistencePath() + WBFileSystemUtils::digitFileFormat("/page%1.svg", pageIndex);
-    qDebug() << fileName;
+    qDebug() << "in WBSvgSubsetAdaptor::loadScene(WBDocumentProxy* proxy, const int pageIndex) : " << fileName;
     QFile file(fileName);
 
     if (file.exists())
     {
         if (!file.open(QIODevice::ReadOnly))
         {
-            qWarning() << "Cannot open file " << fileName << " for reading ...";
+            qWarning() << "in WBSvgSubsetAdaptor::loadScene(WBDocumentProxy* proxy, const int pageIndex) : " << "Cannot open file " << fileName << " for reading ...";
             return 0;
         }
 
@@ -235,14 +235,14 @@ WBGraphicsScene* WBSvgSubsetAdaptor::loadScene(WBDocumentProxy* proxy, const int
 QByteArray WBSvgSubsetAdaptor::loadSceneAsText(WBDocumentProxy* proxy, const int pageIndex)
 {
     QString fileName = proxy->persistencePath() + WBFileSystemUtils::digitFileFormat("/page%1.svg", pageIndex);
-    qDebug() << fileName;
+    qDebug() << "in WBSvgSubsetAdaptor::loadSceneAsText(WBDocumentProxy* proxy, const int pageIndex) : " << fileName;
     QFile file(fileName);
 
     if (file.exists())
     {
         if (!file.open(QIODevice::ReadOnly))
         {
-            qWarning() << "Cannot open file " << fileName << " for reading ...";
+            qWarning() << "in WBSvgSubsetAdaptor::loadSceneAsText(WBDocumentProxy* proxy, const int pageIndex) : " << "Cannot open file " << fileName << " for reading ...";
             return "";
         }
 
@@ -267,7 +267,7 @@ QUuid WBSvgSubsetAdaptor::sceneUuid(WBDocumentProxy* proxy, const int pageIndex)
     {
         if (!file.open(QIODevice::ReadOnly))
         {
-            qWarning() << "Cannot open file " << fileName << " for reading ...";
+            qWarning() << "in WBSvgSubsetAdaptor::sceneUuid(WBDocumentProxy* proxy, const int pageIndex) : " << "Cannot open file " << fileName << " for reading ...";
             return 0;
         }
 
@@ -320,7 +320,7 @@ WBSvgSubsetAdaptor::WBSvgSubsetReader::WBSvgSubsetReader(WBDocumentProxy* pProxy
 
 WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy)
 {
-    qDebug() << "loadScene() : starting reading...";
+    qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "loadScene() : starting reading...";
     QTime time;
     time.start();
     mScene = 0;
@@ -398,7 +398,7 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
                     }
                     else
                     {
-                        qWarning() << "cannot make sense of 'viewBox' value " << svgViewBox.toString();
+                        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "cannot make sense of 'viewBox' value " << svgViewBox.toString();
                     }
                 }
 
@@ -477,7 +477,7 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
                     }
                     else
                     {
-                        qWarning() << "cannot make sense of 'nominal-size' value " << pageNominalSize.toString();
+                        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "cannot make sense of 'nominal-size' value " << pageNominalSize.toString();
                     }
 
                 }
@@ -655,7 +655,7 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
                     }
                     else
                     {
-                        qWarning() << "don't know what to do with href value " << href;
+                        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "don't know what to do with href value " << href;
                     }
                 }
             }
@@ -867,7 +867,7 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
                 }
                 else
                 {
-                    qWarning() << "Ignoring unknown foreignObject:" << href;
+                    qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "Ignoring unknown foreignObject:" << href;
                 }
             }
             else if (currentWidget && (mXmlReader.name() == "preference"))
@@ -908,10 +908,10 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
 
     if (mXmlReader.hasError())
     {
-        qWarning() << "error parsing file " << mXmlReader.errorString();
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "error parsing file " << mXmlReader.errorString();
     }
 
-    qDebug() << "Number of detected strokes: " << mStrokesList.count();
+    qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "Number of detected strokes: " << mStrokesList.count();
     QHashIterator<QString, WBGraphicsStrokesGroup*> iterator(mStrokesList);
     while (iterator.hasNext()) {
         iterator.next();
@@ -923,8 +923,8 @@ WBGraphicsScene* WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProx
         mScene->enableUndoRedoStack();
     }
 
-    qDebug() << "loadScene() : created scene and read file";
-    qDebug() << "spent milliseconds: " << time.elapsed();
+    qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "loadScene() : created scene and read file";
+    qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::loadScene(WBDocumentProxy* proxy) : " << "spent milliseconds: " << time.elapsed();
     return mScene;
 }
 
@@ -1203,7 +1203,7 @@ bool WBSvgSubsetAdaptor::WBSvgSubsetWriter::persistScene(WBDocumentProxy* proxy,
                         if (!matrix.isIdentity())
                             mXmlWriter.writeAttribute("transform", toSvgTransform(matrix));
 
-                        qDebug() << "Attributes written";
+                        qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetWriter::persistScene(WBDocumentProxy* proxy, int pageIndex) ; " << "Attributes written";
 
                         groupHoldsInfo = true;
                     }
@@ -1405,7 +1405,7 @@ bool WBSvgSubsetAdaptor::WBSvgSubsetWriter::persistScene(WBDocumentProxy* proxy,
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
-        qCritical() << "cannot open " << fileName << " for writing ...";
+        qCritical() << "in WBSvgSubsetAdaptor::WBSvgSubsetWriter::persistScene(WBDocumentProxy* proxy, int pageIndex) : " << "cannot open " << fileName << " for writing ...";
         return false;
     }
     file.write(buffer.data());
@@ -1651,13 +1651,13 @@ WBGraphicsPolygonItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemFromPol
             }
             else
             {
-                qWarning() << "cannot make sense of a 'point' value" << sCoord;
+                qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemFromPolygonSvg(const QColor& pDefaultColor) : " << "cannot make sense of a 'point' value" << sCoord;
             }
         }
     }
     else
     {
-        qWarning() << "cannot make sense of 'points' value " << svgPoints.toString();
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemFromPolygonSvg(const QColor& pDefaultColor) : " << "cannot make sense of 'points' value " << svgPoints.toString();
     }
 
     polygonItem->setPolygon(polygon);
@@ -1751,7 +1751,7 @@ WBGraphicsPolygonItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemFromLin
     }
     else
     {
-        qWarning() << "cannot make sense of 'line' value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemFromLineSvg(const QColor& pDefaultColor) : " << "cannot make sense of 'line' value";
         return 0;
     }
 
@@ -1924,7 +1924,7 @@ QList<WBGraphicsPolygonItem*> WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItem
             }
             else
             {
-                qWarning() << "cannot make sense of a 'point' value" << sCoord;
+                qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemsFromPolylineSvg(const QColor& pDefaultColor) : " << "cannot make sense of a 'point' value" << sCoord;
             }
         }
 
@@ -1941,7 +1941,7 @@ QList<WBGraphicsPolygonItem*> WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItem
     }
     else
     {
-        qWarning() << "cannot make sense of 'points' value " << svgPoints.toString();
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::polygonItemsFromPolylineSvg(const QColor& pDefaultColor) : " << "cannot make sense of 'points' value " << svgPoints.toString();
     }
 
     return polygonItems;
@@ -1981,7 +1981,7 @@ WBGraphicsPixmapItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::pixmapItemFromSvg()
     }
     else
     {
-        qWarning() << "cannot make sens of image href value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::pixmapItemFromSvg() : " << "cannot make sens of image href value";
         return 0;
     }
 
@@ -2022,7 +2022,7 @@ WBGraphicsSvgItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::svgItemFromSvg()
     }
     else
     {
-        qWarning() << "cannot make sens of image href value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::svgItemFromSvg() : " << "cannot make sens of image href value";
         return 0;
     }
 
@@ -2050,7 +2050,7 @@ void WBSvgSubsetAdaptor::WBSvgSubsetWriter::pdfItemToLinkedPDF(WBGraphicsPDFItem
         QFile file(path);
         if (!file.open(QIODevice::WriteOnly))
         {
-            qWarning() << "cannot open file for writing embeded pdf content " << path;
+            qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetWriter::pdfItemToLinkedPDF(WBGraphicsPDFItem* pdfItem) : " << "cannot open file for writing embeded pdf content " << path;
             return;
         }
 
@@ -2074,7 +2074,7 @@ WBGraphicsPDFItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::pdfItemFromPDF()
     QStringList parts = href.split("#page=");
     if (parts.count() != 2)
     {
-        qWarning() << "invalid pdf href value" << href;
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::pdfItemFromPDF()" << "invalid pdf href value" << href;
         return 0;
     }
 
@@ -2142,7 +2142,7 @@ WBGraphicsMediaItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::audioItemFromSvg()
 
     if (audioHref.isNull())
     {
-        qWarning() << "cannot make sens of video href value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::audioItemFromSvg() : " << "cannot make sens of video href value";
         return 0;
     }
 
@@ -2177,7 +2177,7 @@ WBGraphicsMediaItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::videoItemFromSvg()
 
     if (videoHref.isNull())
     {
-        qWarning() << "cannot make sens of video href value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::videoItemFromSvg() : " << "cannot make sens of video href value";
         return 0;
     }
 
@@ -2471,7 +2471,7 @@ WBGraphicsAppleWidgetItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::graphicsAppleW
 
     if (widgetUrl.isNull())
     {
-        qWarning() << "cannot make sens of widget src value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::graphicsAppleWidgetFromSvg() : " << "cannot make sens of widget src value";
         return 0;
     }
 
@@ -2497,7 +2497,7 @@ WBGraphicsW3CWidgetItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::graphicsW3CWidge
 
     if (widgetUrl.isNull())
     {
-        qWarning() << "cannot make sens of widget src value";
+        qWarning() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::graphicsW3CWidgetFromSvg() : " << "cannot make sens of widget src value";
         return 0;
     }
 
@@ -2631,12 +2631,12 @@ WBGraphicsTextItem* WBSvgSubsetAdaptor::WBSvgSubsetReader::textItemFromSvg()
                     if (originalPixelsPerPoint != 0) {
                         qreal pixelsPerPoint = textItem->pixelsPerPoint();
 
-                        qDebug() << "Pixels per point: original/current" << originalPixelsPerPoint
+                        qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::textItemFromSvg() : " << "Pixels per point: original/current" << originalPixelsPerPoint
                                  << "/" << pixelsPerPoint;
                         qreal ratio = originalPixelsPerPoint/pixelsPerPoint;
 
                         if (ratio != 1) {
-                            qDebug() << "Scaling text by " << ratio;
+                            qDebug() << "in WBSvgSubsetAdaptor::WBSvgSubsetReader::textItemFromSvg() : " << "Scaling text by " << ratio;
                             WBGraphicsTextItemDelegate* textDelegate = dynamic_cast<WBGraphicsTextItemDelegate*>(textItem->Delegate());
                             if (textDelegate)
                                 textDelegate->scaleTextSize(ratio);
